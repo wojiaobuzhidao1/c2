@@ -14,17 +14,16 @@ set(lib_src
 	tokenizer/tokenizer.cpp
 	tokenizer/utils.hpp
 	error/error.h
-	analyser/symbol.h
 	analyser/analyser.h
 	analyser/analyser.cpp
-	analyser/symTable.h
-	analyser/symTable.cpp
+	sym_table/symbol.h
+	sym_table/sym_table.h
+	sym_table/sym_table.cpp
 	instruction/instruction.h
 		)
 
 set(main_src
 	main.cpp
-	main.h
 	fmts.hpp
 )
 
