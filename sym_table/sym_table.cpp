@@ -1,6 +1,6 @@
 #include <iostream>
-#include "analyser/symTable.h"
-#include "analyser/symbol.h"
+#include "sym_table.h"
+#include "symbol.h"
 
 namespace cc0 {
 
