@@ -73,7 +73,7 @@ void ToAssembly(std::istream& input, std::ostream& output){
             output << ".F" << funcIndex << ":" << std::endl;
             funcIndex++;
             // auto index = consts[i].getIndex(); 就是 i
-            auto size = v[i].size();
+            int size = v[i].size();
             for(int j=0; j<size; j++)
                 output << fmt::format("{}   {}\n", j, v[i][j]);
         }
