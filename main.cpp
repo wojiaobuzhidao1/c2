@@ -22,9 +22,9 @@ std::vector<cc0::Token> _tokenize(std::istream& input) {
 
 void Tokenize(std::istream& input, std::ostream& output) {
 	auto v = _tokenize(input);
-	for (auto& it : v)
-		output << fmt::format("{}\n", it);
-	return;
+	for (auto& it : v) {
+        output << fmt::format("{}\n", it);
+	}
 }
 
 void ToAssembly(std::istream& input, std::ostream& output){
@@ -38,7 +38,7 @@ void ToAssembly(std::istream& input, std::ostream& output){
 		fmt::print(stderr, "Syntactic analysis error: {}\n", p.second.value());
 		exit(2);
 	}
-	// 输出常量表
+	// output constant table
 	auto consts = analyser.getConstants();
 	int const_size = consts.size();
 	output << ".constants:" << std::endl;
@@ -47,14 +47,15 @@ void ToAssembly(std::istream& input, std::ostream& output){
 	    output << i << " S \"" << consts[i].getName() << "\"" << std::endl;
 	}
 
-    // 输出启动代码
+    // output start_code
 	auto v = p.first;
 	output << ".start:" << std::endl;
 	int size = v[-1].size();
-	for (int i=0; i<size; i++)
-		output << fmt::format("{}   {}\n", i, v[-1][i]);
+	for (int i=0; i<size; i++) {
+        output << fmt::format("{}   {}\n", i, v[-1][i]);
+	}
 
-    // 输出函数表
+    // output constant table
     output << ".functions:" << std::endl;
     int funcIndex = 0;
     for(int i=0; i<const_size; i++) {
@@ -65,26 +66,24 @@ void ToAssembly(std::istream& input, std::ostream& output){
 
     funcIndex = 0;
     for(int i=0; i<const_size; i++) {
-        // 注意函数在const的位置i就是函数指令在vector的位置
         if(consts[i].isFunction()) {
             output << ".F" << funcIndex << ":" << std::endl;
             funcIndex++;
-            // auto index = consts[i].getIndex(); 就是 i
             int size = v[i].size();
-            for(int j=0; j<size; j++)
+            for(int j=0; j<size; j++) {
                 output << fmt::format("{}   {}\n", j, v[i][j]);
+            }
         }
     }
-
-	return;
 }
 
 void writeBytes(void* addr, int count, std::ostream& out) {
     char bytes[8];
     assert(0 < count && count <= 8);
     char* p = reinterpret_cast<char*>(addr) + (count-1);
-    for(int i=0; i<count; i++)
+    for(int i=0; i<count; i++) {
         bytes[i] = *p--;
+    }
     out.write(bytes, count);
 }
 
@@ -96,12 +95,12 @@ void ToBinary(std::istream& input, std::ostream& out) {
         fmt::print(stderr, "Syntactic analysis error: {}\n", p.second.value());
         exit(2);
     }
-    // 获取常量表
+    // get constant table
     auto consts = analyser.getConstants();
 
-    // 输出 magic must be 0x43303A29
+    // output magic must be 0x43303A29
     out.write("\x43\x30\x3A\x29", 4);
-    // 输出 version 1
+    // output version 1
     out.write("\x00\x00\x00\x01", 4);
 
     // constants_count
@@ -109,14 +108,14 @@ void ToBinary(std::istream& input, std::ostream& out) {
     writeBytes(&constants_count, sizeof(constants_count), out);
     // constants
     for(auto& constant: consts) {
-        // 字符串常量（函数、字符串字面量）
+        // const string
         if(constant.isFunction() || constant.getType()==cc0::SymType::STRING_TYPE) {
             out.write("\x00", 1);
             std::string str = constant.getName();
 			std::uint16_t len = str.length();
-            // 输出字符串长度
+            // output str_length
             writeBytes(&len, sizeof(len), out);
-            // 再输出字符串内容
+            // output str_content
             out.write(str.c_str(), len);
         } else if(constant.getType() == cc0::SymType::INT_TYPE) {
             out.write("\x01", 1);
@@ -131,10 +130,10 @@ void ToBinary(std::istream& input, std::ostream& out) {
         writeBytes(&intro_size, sizeof(intro_size), out);
         // Instruction instructions[instructions_count];
         for(auto& intro: v) {
-            // 输出指令
+            // output instructiuon
 			std::uint8_t opt = static_cast<std::uint8_t>(intro.getOperation());
             writeBytes(&opt, sizeof(opt), out);
-            // 指令后有没有参数
+            // if there are vars after instruction
             auto iter = cc0::paramOpt.find(intro.getOperation());
             if(iter != cc0::paramOpt.end()) {
                 auto params = iter->second;
@@ -182,7 +181,7 @@ void ToBinary(std::istream& input, std::ostream& out) {
         }
     };
 
-    // 指令全在这里: 启动代码、函数指令
+    // all instructions
     auto introductions_code = p.first;
     // start_code
     auto start_code = introductions_code[-1];
@@ -196,7 +195,8 @@ void ToBinary(std::istream& input, std::ostream& out) {
     for(int i=0; i<constants_count; i++) {
         // 注意常量和函数是放在一起的
         if(consts[i].isFunction()) {
-            // std::uint16_t name_index; // name: CO_binary_file.strings[name_index]
+            // std::uint16_t name_index;
+            // name: CO_binary_file.strings[name_index]
 			std::uint16_t funcIndex = i;
             writeBytes(&funcIndex, sizeof(funcIndex), out);
             // std::uint16_t params_size;
@@ -208,10 +208,9 @@ void ToBinary(std::istream& input, std::ostream& out) {
             to_binary(introductions_code[i]);
         }
     }
-    return;
 }
 
-//程序入口
+//program entrance
 int main(int argc, char** argv) {
 	argparse::ArgumentParser program("cc0");
 	program.add_argument("input")
@@ -254,8 +253,9 @@ int main(int argc, char** argv) {
 		}
 		input = &inf;
 	}
-	else
-		input = &std::cin;
+	else {
+        input = &std::cin;
+	}
 
 	
 	if (program["-s"] == true && program["-c"] == true) {
@@ -271,7 +271,6 @@ int main(int argc, char** argv) {
 			}
 			output = &outf;
 		}
-		//else output = &std::cout;
 		else {
 			outf.open("out", std::ios::out | std::ios::trunc);
 			if (!outf) {
