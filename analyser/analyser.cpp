@@ -178,7 +178,8 @@ namespace cc0 {
 	    if(!next.has_value()) {
             if(isConst) // const 必须显式初始化
                 return std::make_optional<CompilationError>(_current_pos, ErrorCode::ErrConstantNeedValue);
-	        return {};
+			else
+				return {};
 	    }
 	    if(next.value().GetType() != TokenType::ASSIGN_SIGN) {
             if(isConst) // const 必须显式初始化

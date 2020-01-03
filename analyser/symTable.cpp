@@ -31,11 +31,12 @@ namespace cc0 {
         _next_index++;
     }
 
-    int SymTable::getVarIndex(std::string name) {
+    int32_t SymTable::getVarIndex(std::string name) {
         for(int i=0; i<_next_index; i++) {
             if(name == _symbols[i].getName())
                 return _symbols[i].getIndex();
         }
+		//return -1;
     }
 
     int32_t SymTable::addFunc(std::string name, SymType type) {
