@@ -70,11 +70,6 @@ namespace cc0 {
 		// 这是一个死循环，除非主动跳出
 		// 每一次执行while内的代码，都可能导致状态的变更
 		while (true) {
-			// 读一个字符，请注意auto推导得出的类型是std::optional<char>
-			// 这里其实有两种写法
-			// 1. 每次循环前立即读入一个 char
-			// 2. 只有在可能会转移的状态读入一个 char
-			// 因为我们实现了 unread，为了省事我们选择第一种
 			auto current_char = nextChar();
 			// 针对当前的状态进行不同的操作
 			switch (current_state) {
@@ -241,12 +236,6 @@ namespace cc0 {
 
 			// 当前状态是十进制整数，且开头不为0
 			case DECIMAL_INTEGER_STATE: {
-				// 如果当前已经读到了文件尾，则解析已经读到的字符串为整数
-				//     解析成功则返回无符号整数类型的token，否则返回编译错误
-				// 如果读到的字符是数字，则存储读到的字符
-				// 如果读到的是字母，则存储读到的字符，并切换状态到标识符
-				// 如果读到的字符不是上述情况之一，则回退读到的字符，并解析已经读到的字符串为整数
-				//     解析成功则返回无符号整数类型的token，否则返回编译错误
 				if(!current_char.has_value()) { // 读到文件尾
                     std::string str = ss.str();
                     try {
@@ -276,12 +265,6 @@ namespace cc0 {
 
 			// 标识符状态
 			case IDENTIFIER_STATE: {
-				// 请填空：
-				// 如果当前已经读到了文件尾，则解析已经读到的字符串
-				//     如果解析结果是关键字，那么返回对应关键字的token，否则返回标识符的token
-				// 如果读到的是字符或字母，则存储读到的字符
-				// 如果读到的字符不是上述情况之一，则回退读到的字符，并解析已经读到的字符串
-				//     如果解析结果是关键字，那么返回对应关键字的token，否则返回标识符的token
 				if(!current_char.has_value()) {
 					std::string str = ss.str();
                     TokenType type;

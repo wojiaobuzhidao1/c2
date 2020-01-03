@@ -7,65 +7,65 @@
 namespace cc0 {
 
 	enum Operation {
-	    NOP     = 0x00,    // 什么都不做
-	    BIPUSH  = 0x01,    // 将 byte 单字节提升至 int 值压栈
-	    IPUSH   = 0x02,    // 压栈 int
-	    POP     = 0x04,    // 弹出 1 个 slot
- 	    POP2    = 0x05,    // 弹出 2 个 slot
-	    POPN    = 0x06,    // 弹出 n 个 slot
-	    DUP     = 0x07,    // 复制栈顶的 1 个 slot 并入栈
-	    DUP2    = 0x08,
-	    LOADC   = 0x09,    // 加载常量池下标为 index 的常量值 value
-	    LOADA   = 0x0a,    // 沿 SL 链向前移动 level_diff 次（移动到当前栈帧层次差为 level_diff 的栈帧中），加载该栈帧中栈偏移为 offset 的内存的栈地址值 address
-	    NEW     = 0x0b,    // 弹出栈顶的 int 值 count，在堆上分配连续的大小为 count 个 slot 的内存，然后将这段内存的首地址 address 压入栈。内存的值保证被初始化为 0。
-        SNEW    = 0x0c,    // 在栈顶连续分配大小为 count 个 slot 的内存。内存的值不保证被初始化为 0
-        ILOAD   = 0x10,    // 从内存地址 address 处加载一个 int 值
-        DLOAD   = 0x11,    // double, 同上
-        ALOAD   = 0x12,    // 从内存地址 address 处加载一个地址值
-        IALOAD  = 0x18,    // 数组用的
-        DALOAD  = 0x19,
-        AALOAD  = 0x1a,
-        ISTORE  = 0x20,
-        DSTORE  = 0x21,
-        ASTORE  = 0x22,
+	    NOP = 0x00,
+	    BIPUSH,
+	    IPUSH,
+	    POP = 0x04,
+ 	    POP2, 
+	    POPN, 
+	    DUP,  
+	    DUP2,
+	    LOADC, 
+	    LOADA,  
+	    NEW, 
+        SNEW, 
+        ILOAD = 0x10,
+        DLOAD,
+        ALOAD, 
+        IALOAD = 0x18,   
+        DALOAD,
+        AALOAD,
+        ISTORE = 0x20,
+        DSTORE,
+        ASTORE,
         IASTORE = 0x28,
-        DASTORE = 0x29,
-        AASTORE = 0x2a,
-        IADD    = 0x30,
-        DADD    = 0x31,
-        ISUB    = 0x34,
-        DSUB    = 0x35,
-        IMUL    = 0x38,
-        DMUL    = 0X39,
-        IDIV    = 0x3c,
-        DDIV    = 0x3d,
-        INEG    = 0x40,    // 弹出栈顶 value，将 -value 的值 result 压栈
-        DNEG    = 0x41,
-        ICMP    = 0x44,    // 弹出栈顶 rhs 和次栈顶 lhs，并将比较结果以 int 值 result 压栈
-        DCMP    = 0x45,
-        I2D     = 0x60,    // int -> double
-        D2I     = 0x61,
-        I2C     = 0x62,
-        JMP     = 0x70,
-        JE      = 0x71,
-        JNE     = 0x72,
-        JL      = 0x73,
-        JGE     = 0x74,
-        JG      = 0x75,
-        JLE     = 0x76,
-        CALL    = 0x80,
-        RET     = 0x88,
-        IRET    = 0x89,
-        DRET    = 0x8a,
-        ARET    = 0x8b,
-        IPRINT  = 0xa0,
-        DPRINT  = 0xa1,
-        CPRINT  = 0xa2,
-        SPRINT  = 0xa3,
-        PRINTL  = 0xaf,    // 换行
-        ISCAN   = 0xB0,
-        DSCAN   = 0xb1,
-        CSCAN   = 0xb2
+        DASTORE,
+        AASTORE,
+        IADD = 0x30,
+        DADD,
+        ISUB = 0x34,
+        DSUB,
+        IMUL = 0x38,
+        DMUL,
+        IDIV = 0x3c,
+        DDIV,
+        INEG = 0x40,
+        DNEG,
+        ICMP = 0x44,
+        DCMP,
+        I2D = 0x60, 
+        D2I,
+        I2C,
+        JMP = 0x70,
+        JE,
+        JNE,
+        JL,
+        JGE,
+        JG,
+        JLE,
+        CALL = 0x80,
+        RET = 0x88,
+        IRET,
+        DRET,
+        ARET,
+        IPRINT=0xa0,
+        DPRINT,
+        CPRINT,
+        SPRINT,
+        PRINTL=0xaf,
+        ISCAN=0xb0,
+        DSCAN,
+        CSCAN,
 	};
 
 	const std::unordered_map<cc0::Operation, std::vector<int>> paramOpt = {
