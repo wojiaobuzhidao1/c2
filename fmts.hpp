@@ -31,7 +31,7 @@ namespace fmt {
 				name = "Identifier is invalid";
 				break;
 			case cc0::ErrIntegerOverflow:
-				name = "The integer is too big(int64_t).";
+				name = "The integer is overflow.";
 				break;
             case cc0::ErrCharInvalid:
                 name = "Char is invalid.";
@@ -54,9 +54,9 @@ namespace fmt {
             case cc0::ErrCallUndefined:
                 name = "The function you called is undefined.";
                 break;
-			    case cc0::ErrParamsInvalid:
-			        name = "The parameters of the function is incorrect.";
-			        break;
+			case cc0::ErrParamsInvalid:
+			    name = "The parameters of the function is incorrect.";
+			    break;
             case cc0::ErrVariableVoid:
                 name = "The type void cannot be used to variable declaration.";
                 break;
