@@ -9,20 +9,6 @@
 #include <iostream>
 #include <fstream>
 
-
-namespace cc0 {
-	using u1 = std::uint8_t;
-	using u2 = std::uint16_t;
-	using u4 = std::uint32_t;
-	using u8 = std::uint64_t;
-
-	using i1 = std::int8_t;
-	using i2 = std::int16_t;
-	using i4 = std::int32_t;
-	using i8 = std::int64_t;
-
-}
-
 std::vector<cc0::Token> _tokenize(std::istream& input) {
 	cc0::Tokenizer tkz(input);
 	auto p = tkz.AllTokens();
@@ -54,7 +40,7 @@ void ToAssembly(std::istream& input, std::ostream& output){
 	}
 	// 输出常量表
 	auto consts = analyser.getConstants();
-	auto const_size = consts.size();
+	int const_size = consts.size();
 	output << ".constants:" << std::endl;
 	for(int i=0; i<const_size; i++) {
 	    //          下标  常量的类型       常量的值
@@ -65,7 +51,7 @@ void ToAssembly(std::istream& input, std::ostream& output){
     // 输出启动代码
 	auto v = p.first;
 	output << ".start:" << std::endl;
-	auto size = v[-1].size();
+	int size = v[-1].size();
 	for (int i=0; i<size; i++)
 		output << fmt::format("{}   {}\n", i, v[-1][i]);
 
@@ -123,7 +109,7 @@ void ToBinary(std::istream& input, std::ostream& out) {
     out.write("\x00\x00\x00\x01", 4);
 
     // constants_count
-    cc0::u2 constants_count = consts.size();
+	std::uint16_t constants_count = consts.size();
     writeBytes(&constants_count, sizeof(constants_count), out);
     // constants
     for(auto& constant: consts) {
@@ -131,7 +117,7 @@ void ToBinary(std::istream& input, std::ostream& out) {
         if(constant.isFunction() || constant.getType()==cc0::SymType::STRING_TYPE) {
             out.write("\x00", 1);
             std::string str = constant.getName();
-            cc0::u2 len = str.length();
+			std::uint16_t len = str.length();
             // 输出字符串长度
             writeBytes(&len, sizeof(len), out);
             // 再输出字符串内容
@@ -148,13 +134,13 @@ void ToBinary(std::istream& input, std::ostream& out) {
     }
 
     auto to_binary = [&](const std::vector<cc0::Instruction>& v) {
-        // u2 instructions_count;
-        cc0::u2 intro_size = v.size();
+        // std::uint16_t instructions_count;
+		std::uint16_t intro_size = v.size();
         writeBytes(&intro_size, sizeof(intro_size), out);
         // Instruction instructions[instructions_count];
         for(auto& intro: v) {
             // 输出指令
-            cc0::u1 opt = static_cast<cc0::u1>(intro.getOperation());
+			std::uint8_t opt = static_cast<std::uint8_t>(intro.getOperation());
             writeBytes(&opt, sizeof(opt), out);
             // 指令后有没有参数
             auto iter = cc0::paramOpt.find(intro.getOperation());
@@ -162,17 +148,17 @@ void ToBinary(std::istream& input, std::ostream& out) {
                 auto params = iter->second;
                 switch(params[0]) {
                     case 1: {
-                        cc0::u1 x = intro.getX();
+						std::uint8_t x = intro.getX();
                         writeBytes(&x, 1, out);
                         break;
                     }
                     case 2: {
-                        cc0::u2 x = intro.getX();
+						std::uint16_t x = intro.getX();
                         writeBytes(&x, 2, out);
                         break;
                     }
                     case 4: {
-                        cc0::u4 x = intro.getX();
+						std::uint32_t x = intro.getX();
                         writeBytes(&x, 4, out);
                         break;
                     }
@@ -182,17 +168,17 @@ void ToBinary(std::istream& input, std::ostream& out) {
                 if(params.size() == 2) {
                     switch(params[1]) {
                         case 1: {
-                            cc0::u1 y = intro.getY();
+							std::uint8_t y = intro.getY();
                             writeBytes(&y, 1, out);
                             break;
                         }
                         case 2: {
-                            cc0::u2 y = intro.getY();
+							std::uint16_t y = intro.getY();
                             writeBytes(&y, 2, out);
                             break;
                         }
                         case 4: {
-                            cc0::u4 y = intro.getY();
+							std::uint32_t y = intro.getY();
                             writeBytes(&y, 4, out);
                             break;
                         }
@@ -211,21 +197,21 @@ void ToBinary(std::istream& input, std::ostream& out) {
     to_binary(start_code);
 
     // functions_count
-    cc0::u2 functions_count = introductions_code.size() - 1;
+	std::uint16_t functions_count = introductions_code.size() - 1;
     writeBytes(&functions_count, sizeof(functions_count), out);
 
     // functions
     for(int i=0; i<constants_count; i++) {
         // 注意常量和函数是放在一起的
         if(consts[i].isFunction()) {
-            // u2 name_index; // name: CO_binary_file.strings[name_index]
-            cc0::u2 funcIndex = i;
+            // std::uint16_t name_index; // name: CO_binary_file.strings[name_index]
+			std::uint16_t funcIndex = i;
             writeBytes(&funcIndex, sizeof(funcIndex), out);
-            // u2 params_size;
-            cc0::u2 paramSize = consts[i].getParamNum();
+            // std::uint16_t params_size;
+			std::uint16_t paramSize = consts[i].getParamNum();
             writeBytes(&paramSize, sizeof(paramSize), out);
-            // u2 level;
-            cc0::u2 level = 1;
+            // std::uint16_t level;
+			std::uint16_t level = 1;
             writeBytes(&level, sizeof(level), out);
             to_binary(introductions_code[i]);
         }
