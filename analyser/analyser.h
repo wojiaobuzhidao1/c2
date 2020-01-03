@@ -23,7 +23,7 @@ namespace cc0 {
 		using int16_t = std::int16_t;
 	public:
 		Analyser(std::vector<Token> v)
-			: _tokens(std::move(v)), _offset(0), _current_pos(0, 0), _instructions({}) {}
+			: _tokens(std::move(v)), _offset(0), _instructions({}), _current_pos(0, 0) {}
 		Analyser(Analyser&&) = delete;
 		Analyser(const Analyser&) = delete;
 		Analyser& operator=(Analyser) = delete;

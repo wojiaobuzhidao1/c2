@@ -40,7 +40,7 @@ void ToAssembly(std::istream& input, std::ostream& output){
 	}
 	// 输出常量表
 	auto consts = analyser.getConstants();
-	int const_size = consts.size();
+	auto const_size = consts.size();
 	output << ".constants:" << std::endl;
 	for(int i=0; i<const_size; i++) {
 	    //          下标  常量的类型       常量的值
@@ -51,7 +51,7 @@ void ToAssembly(std::istream& input, std::ostream& output){
     // 输出启动代码
 	auto v = p.first;
 	output << ".start:" << std::endl;
-	int size = v[-1].size();
+	auto size = v[-1].size();
 	for (int i=0; i<size; i++)
 		output << fmt::format("{}   {}\n", i, v[-1][i]);
 
@@ -73,7 +73,7 @@ void ToAssembly(std::istream& input, std::ostream& output){
             output << ".F" << funcIndex << ":" << std::endl;
             funcIndex++;
             // auto index = consts[i].getIndex(); 就是 i
-            int size = v[i].size();
+            auto size = v[i].size();
             for(int j=0; j<size; j++)
                 output << fmt::format("{}   {}\n", j, v[i][j]);
         }
