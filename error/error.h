@@ -51,10 +51,6 @@ namespace cc0 {
         ErrInvalidPrimaryExpression,
         ErrInvalidType,
 
-        ErrTest,
-
-		ErrNoBegin,
-		ErrNoEnd,
 		ErrNeedIdentifier,
 		ErrConstantNeedValue,
 		ErrNoSemicolon,
