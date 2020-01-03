@@ -3,7 +3,7 @@
 #include "error/error.h"
 #include "instruction/instruction.h"
 #include "tokenizer/token.h"
-#include "symTable.h"
+#include "sym_table/sym_table.h"
 
 #include <vector>
 #include <optional>
