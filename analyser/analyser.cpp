@@ -1760,7 +1760,7 @@ namespace cc0 {
 			std::cout << "strhl" << strh << strl << std::endl;*/
 			//str = "0100000010010011001110000000000000000000000000000000000000000000";
 			std::string substr1 = str.substr(0, 32);
-			std::string substr2 = str.substr(32, 64);
+			std::string substr2 = str.substr(32, 32);
 			//std::cout << "SubString" << substr1 << substr2 << std::endl;
 
 			/*std::string hex = "", out1 = "", tmp = "";
@@ -1793,6 +1793,8 @@ namespace cc0 {
 			type = SymType::DOUBLE_TYPE;
 			// 将数字压栈
 			_instructions[funcIndex].emplace_back(Operation::IPUSH, strtoll(substr1.c_str(), NULL, 2));
+
+			_instructions[funcIndex].emplace_back(Operation::SNEW, 1);
 			_instructions[funcIndex].emplace_back(Operation::IPUSH, strtoll(substr2.c_str(), NULL, 2));
 
 			break;
