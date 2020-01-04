@@ -1754,7 +1754,7 @@ namespace cc0 {
 				//std::cout << "SubString" << substr1 << substr2 << std::endl;
 
 					std::string hex = "", out1 = "", tmp = "";
-					int pos = 28;
+					int pos = 0;
 					for (int i = 0; i < 8; i++) {
 						tmp = substr1.substr(pos, 4);
 						//std::cout << tmp << std::endl;
@@ -1767,7 +1767,7 @@ namespace cc0 {
 
 
 					std::string out2 = "";
-					pos = 28;
+					pos = 0;
 					for (int i = 0; i < 8; i++) {
 						tmp = substr2.substr(pos, 4);
 						//std::cout << tmp << std::endl;
@@ -1775,7 +1775,7 @@ namespace cc0 {
 						tmpss << std::hex << std::stoi(tmp, nullptr, 2);
 						tmpss >> hex;
 						out2.append(hex);
-						pos -= 4;
+						pos += 4;
 					}
 					//transform(hex.begin(), hex.end(), hex.begin(), ::toupper);
 
@@ -1785,8 +1785,8 @@ namespace cc0 {
 				std::cout << "out:" << out1 << out2 << std::endl;
 
 				std::cout << "push:" << strtoll(out1.c_str(), NULL, 16) << strtoll(out2.c_str(), NULL, 16) << std::endl;
-				_instructions[funcIndex].emplace_back(Operation::IPUSH, strtoll(out2.c_str(), NULL, 16));
 				_instructions[funcIndex].emplace_back(Operation::IPUSH, strtoll(out1.c_str(), NULL, 16));
+				_instructions[funcIndex].emplace_back(Operation::IPUSH, strtoll(out2.c_str(), NULL, 16));
 
 				break;
 			}
