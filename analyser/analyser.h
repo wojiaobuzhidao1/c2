@@ -70,8 +70,6 @@ namespace cc0 {
         std::optional<CompilationError> analyseConditionStatement(int32_t funcIndex, bool& isReturn);
         // <loop-statement>
         std::optional<CompilationError> analyseLoopStatement(int32_t funcIndex, bool& isReturn);
-
-		std::optional<CompilationError> analyseDoStatement(int32_t funcIndex, bool& isReturn);
         // <jump-statement>
         std::optional<CompilationError> analyseJumpStatement(int32_t funcIndex);
         // <print-statement>
@@ -144,8 +142,6 @@ namespace cc0 {
         SymType getVarType(int32_t funcIndex, std::string name);
         // 设置变量为已初始化
         void initVar(int32_t funcIndex, std::string name);
-
-		double toDouble(std::string str);
 
 	private:
 		std::vector<Token> _tokens;

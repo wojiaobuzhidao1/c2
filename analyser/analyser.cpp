@@ -1,13 +1,6 @@
 #include "analyser.h"
 
 #include <climits>
-#include <cctype>
-#include <sstream>
-#include <iostream>
-#include <vector>
-#include <cstring>
-#include <sstream>
-#include <iomanip>
 
 namespace cc0 {
 	std::pair<std::map<int32_t ,std::vector<Instruction>>, std::optional<CompilationError>> Analyser::Analyse() {
@@ -19,8 +12,12 @@ namespace cc0 {
 	}
 
     // <C0-program> ::= {<variable-declaration>}{<function-definition>}
+    // variable: ['const'] <type-specifier> <identifier> [ '=' <expr> ] { ',' <init-declarator> }
+    // function: <type-specifier> <identifier> '(' [list] ')'
+    // 两条文法在无 const 的情况下有相同的 First V_t：<type-specifier> <identifier>
+    // 为了控制两个的顺序和处理 const，这里还是直接回溯吧
 	std::optional<CompilationError> Analyser::analyseC0Program() {
-	    // @para: 哪个函数的局部变量声明
+	    // 有个参数表明是哪个函数的局部变量声明
 	    // 这里是全局变量，用 -1 表示
 	    auto err = analyseVariableDeclaration(-1);
 	    if(err.has_value())
@@ -29,6 +26,8 @@ namespace cc0 {
 	    err = analyseFunctionDefinition();
 	    if(err.has_value())
 	        return err;
+
+	    // printSym();
 
 	    // 检查有没有 main 函数
 	    if(!isMainExisted())
@@ -63,7 +62,7 @@ namespace cc0 {
             if(next.value().GetType() == TokenType::CONST) {
                 isConst = true;
                 next = nextToken();
-                if(!next.has_value())
+                if(!next.has_value()) // const 后面就没了
                     return std::make_optional<CompilationError>(_current_pos, ErrorCode::ErrNeedType);
             }
 
@@ -89,6 +88,13 @@ namespace cc0 {
                 default:
                     return std::make_optional<CompilationError>(_current_pos, ErrorCode::ErrNeedType);
             }
+
+//            if(next.value().GetType() != TokenType::INT &&
+//               next.value().GetType() != TokenType::CHAR &&
+//               next.value().GetType() != TokenType::DOUBLE)
+//                return std::make_optional<CompilationError>(_current_pos, ErrorCode::ErrNeedType);
+
+            // 这里必然是 int/char/double 或 const int/char/double，由 isConst 和 type 判断
 
             // 如果没有 const，接下来先预读两个，如果是 <identifier> '('，说明需要跳转到函数定义
             if(!isConst) {
@@ -438,7 +444,15 @@ namespace cc0 {
         if(err.has_value())
             return err;
 
+        // std::cout << "-------------------param type = " << secType << std::endl;
+
         SymType firstType = getFuncParamType(constIndex, param_num-paramNum);
+
+        // std::cout << "??????????????????   funcIndex = " << funcIndex << "  freq = " << param_num-paramNum << std::endl;
+
+        // printSym();
+
+        // std::cout << "--------------need type = " << firstType << std::endl;
 
         // 将右侧表达式隐式转换为左侧标识符的类型
         if(firstType == SymType::INT_TYPE) {
@@ -623,12 +637,6 @@ namespace cc0 {
                 // std::cout << "loop: isReturn? " << isReturn << std::boolalpha << std::endl;
                 break;
             }
-			/*case DO: {
-				auto err = analyseDoStatement(funcIndex, isReturn);
-				if (err.has_value())
-					return err;
-				break;
-			}*/
             case RETURN: { // <jump-statement> ::= <return-statement>
                 auto err = analyseJumpStatement(funcIndex);
                 if(err.has_value())
@@ -885,92 +893,6 @@ namespace cc0 {
 
         return {};
     }
-
-	std::optional<CompilationError>Analyser::analyseDoStatement(int32_t funcIndex, bool& isReturn) {
-		// 'do'
-		auto next = nextToken();
-		if (!next.has_value() || next.value().GetType() != TokenType::DO)
-			return std::make_optional<CompilationError>(_current_pos, ErrorCode::ErrInvalidDoStatement);
-
-		// '('
-		next = nextToken();
-		if (!next.has_value() || next.value().GetType() != TokenType::LEFT_BRACKET)
-			return std::make_optional<CompilationError>(_current_pos, ErrorCode::ErrInvalidDoStatement);
-
-		auto i = _instructions[funcIndex].size();
-
-		// <condition>
-		TokenType type = TokenType::NULL_TOKEN;
-		auto err = analyseCondition(type, funcIndex);
-		if (err.has_value())
-			return err;
-
-		auto now = _instructions[funcIndex].size();
-		int times = now - i;
-		// 将 <condition> 生成的指令先挪出来
-		std::vector<Instruction> conditions; // 备份到这
-		for (; i != now; i++) {
-			conditions.emplace_back(_instructions[funcIndex][i]);
-		}
-		while (times--)
-			_instructions[funcIndex].pop_back();
-
-		// 生成一个跳转指令，循环开始之前先跳转到后面进行判断
-		auto tmp = _instructions[funcIndex].size();
-		_instructions[funcIndex].emplace_back(Operation::JMP);
-
-		// ')'
-		next = nextToken();
-		if (!next.has_value() || next.value().GetType() != TokenType::RIGHT_BRACKET)
-			return std::make_optional<CompilationError>(_current_pos, ErrorCode::ErrInvalidLoopStatement);
-
-		// 标记循环体的开始位置
-		auto begin = _instructions[funcIndex].size();
-
-		// <statement>
-		err = analyseStatement(funcIndex, isReturn);
-		if (err.has_value())
-			return err;
-
-		// 设置上述 jmp 指令的 offset
-		_instructions[funcIndex][tmp].setX(_instructions[funcIndex].size());
-
-		// 把条件判断指令放在这里
-		for (auto& it : conditions) {
-			_instructions[funcIndex].emplace_back(std::move(it));
-		}
-
-		// 设置跳转指令，满足条件就跳转到循环体开始位置
-		Operation opt;
-		switch (type) {
-		case NULL_TOKEN:  // if(a)，栈顶 value == a
-			opt = Operation::JNE; // je：value 是 0 就跳转
-			break;
-		case LESS_SIGN:  // if(a < b)，栈顶 value ==
-			opt = Operation::JL;
-			break;
-		case LESS_EQUAL_SIGN:
-			opt = Operation::JLE;
-			break;
-		case GREATER_SIGN:
-			opt = Operation::JG;
-			break;
-		case GREATER_EQUAL_SIGN:
-			opt = Operation::JGE;
-			break;
-		case EQUAL_SIGN:
-			opt = Operation::JE;
-			break;
-		case NONEQUAL_SIGN:
-			opt = Operation::JNE;
-			break;
-		default:
-			break;
-		}
-		_instructions[funcIndex].emplace_back(opt, begin);
-
-		return {};
-	}
 
     // <jump-statement> ::= <return-statement> ::= 'return' [<expression>] ';'
     std::optional<CompilationError>Analyser::analyseJumpStatement(int32_t funcIndex) {
@@ -1691,7 +1613,6 @@ namespace cc0 {
 	    if(!next.has_value() ||
 	      (next.value().GetType() != TokenType::LEFT_BRACKET &&
 	       next.value().GetType() != TokenType::INTEGER &&
-		   next.value().GetType()!=TokenType::DOUBLE_TOKEN &&
 	       next.value().GetType() != TokenType::CHAR_TOKEN &&
 	       next.value().GetType() != TokenType::IDENTIFIER)
 	       )
@@ -1717,50 +1638,11 @@ namespace cc0 {
                 }
                 // 设置此处类型为 int
                 type = SymType::INT_TYPE;
+                // 如果是大字节数据就添加到常量表，然后添加 loadc 指令
                 // 将数字压栈
                 _instructions[funcIndex].emplace_back(Operation::IPUSH, val);
                 break;
             }
-			case DOUBLE_TOKEN: {
-				std::string str;
-				try {
-					str = std::any_cast<std::string>(next.value().GetValue());
-					//b = toDouble(str);
-					std::cout << str << std::endl;
-				}
-				catch (const std::bad_any_cast&) {
-					return std::make_optional<CompilationError>(_current_pos, ErrorCode::ErrDouble);
-				}
-				/**std::string substr1 = str.substr(0, 8);
-				std::string substr2 = str.substr(8, 8);
-
-				std::stringstream hexh;
-				std::stringstream hexl;
-
-				hexh << "0x";
-				hexl << "0x";
-				hexh << substr1;
-				hexl << substr2;
-				std::string strh, strl;
-				hexh >> strh;
-				hexl >> strl;
-				std::cout << "SubString" << substr1 << substr2 << std::endl;
-
-				std::cout << "strhl" << strh << strl << std::endl;*/
-
-				std::string substr1 = str.substr(0, 32);
-				std::string substr2 = str.substr(32, 32);
-				std::cout << "SubString" << substr1 << substr2 << std::endl;
-
-				// 设置此处类型为 double
-				type = SymType::DOUBLE_TYPE;
-				// 将数字压栈
-
-				_instructions[funcIndex].emplace_back(Operation::IPUSH, strtoll(substr2.c_str(), NULL, 2));
-				_instructions[funcIndex].emplace_back(Operation::IPUSH, strtoll(substr1.c_str(), NULL, 2));
-
-				break;
-			}
             case CHAR_TOKEN: {
                 char ch;
                 try {
@@ -1948,14 +1830,6 @@ namespace cc0 {
             std::cout << "funcIndex: " << iter->first << std::endl;
             iter->second.print();
         }
-	}
-
-	double Analyser::toDouble(std::string str) {
-		std::stringstream s;
-		double out;
-		s << str;
-		s >> out;
-		return out;
 	}
 
 }
