@@ -318,6 +318,7 @@ namespace cc0 {
 						current_state = DFAState::E_STATE;
 					}
 					else {
+						unreadLast();
 						std::cout << IEEE754(ss.str()) << std::endl;
 						return std::make_pair(std::make_optional<Token>(TokenType::DOUBLE_TOKEN, IEEE754(ss.str()), pos, currentPos()), std::optional<CompilationError>());
 					}
