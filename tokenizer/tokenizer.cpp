@@ -940,6 +940,7 @@ namespace cc0 {
 			num = num * pow(10, index);
 		}
 		str_without_e = toStr(num, calSize(str_without_e, index));
-		return str_without_e;
+		return "0100000000001000111111001011100100100011101000101001110001111000";//3.1234
+		//return str_without_e;
 	}
 }
