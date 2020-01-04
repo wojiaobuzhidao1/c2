@@ -1130,8 +1130,6 @@ namespace cc0 {
 		_instructions[funcIndex].emplace_back(Operation::LOADA, level_diff, offset);
 
 		if (type == SymType::DOUBLE_TYPE) {
-
-			_instructions[funcIndex].emplace_back(Operation::LOADA, level_diff, offset+1);
 			_instructions[funcIndex].emplace_back(Operation::DSCAN);
 			_instructions[funcIndex].emplace_back(Operation::DSTORE);
 		}
@@ -1785,9 +1783,6 @@ namespace cc0 {
 				_instructions[funcIndex].emplace_back(Operation::LOADA, level_diff, offset);
 				// 从栈中弹出地址，从地址处加载数据压栈
 				if (type == SymType::DOUBLE_TYPE) {
-					_instructions[funcIndex].emplace_back(Operation::DLOAD);
-					_instructions[funcIndex].emplace_back(Operation::LOADA, level_diff, offset+1);
-
 					_instructions[funcIndex].emplace_back(Operation::DLOAD);
 				}
 				else
