@@ -14,7 +14,7 @@ namespace cc0 {
 		IDENTIFIER,        // 标识符
 		CHAR_TOKEN,
 		STRING,
-
+        // 保留字
 		CONST,
 		VOID,
 		INT,
@@ -34,7 +34,7 @@ namespace cc0 {
 		CONTINUE,
 		PRINT,
 		SCAN,
-
+		// 符号   ( ) { } < = > , ; ! + - * /
 		PLUS_SIGN,   // +
 		MINUS_SIGN,  // -
 		MULTIPLICATION_SIGN,  // *

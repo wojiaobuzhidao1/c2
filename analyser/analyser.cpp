@@ -855,6 +855,7 @@ namespace cc0 {
             return err;
 
         // 设置上述 jmp 指令的 offset
+        auto order = _instructions[funcIndex].size();
         _instructions[funcIndex][tmp].setX(_instructions[funcIndex].size());
 
         // 把条件判断指令放在这里
@@ -902,6 +903,7 @@ namespace cc0 {
             return std::make_optional<CompilationError>(_current_pos, ErrorCode::ErrInvalidReturnStatement);
 
         // 查表看看有没有返回值
+        bool ret_flag = false;
         std::string funcName = getFuncName(funcIndex);
         SymType funcType = getFuncType(funcName);
         if(funcType != SymType::VOID_TYPE) {
@@ -910,6 +912,7 @@ namespace cc0 {
             auto err = analyseExpression(secType, funcIndex);
             if(err.has_value())
                 return err;
+            ret_flag = true;
             // 如果函数return语句的表达式类型和函数声明的返回值类型不一致，应当对该表达式进行隐式类型转换后再返回
             if(funcType == SymType::INT_TYPE) {
                 if(secType == SymType::DOUBLE_TYPE)

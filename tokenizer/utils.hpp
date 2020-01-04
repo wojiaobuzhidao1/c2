@@ -2,6 +2,8 @@
 
 #include <cctype>
 
+// 我真是爱死 C++ 了.jpg
+// See https://en.cppreference.com/w/cpp/string/byte/isspace#Notes
 #define IS_FUNC(f) \
 	inline bool f(char ch){ \
 		return std::f(static_cast<unsigned char>(ch)); \
