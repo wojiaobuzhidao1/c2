@@ -1132,7 +1132,7 @@ namespace cc0 {
             if(err.has_value())
                 return err;
 
-            // std::cout << "Printable: expression type = " << type << std::endl;
+            std::cout << "print" << type << std::endl;
 
             // 生成指令：输出结果
             if(type == SymType::INT_TYPE)
