@@ -181,17 +181,13 @@ namespace cc0 {
 			// 没有初始化，局部变量在栈上先为它分配内存
 			// 全局变量未初始化直接默认为 0
 			if (funcIndex != -1) {
-				std::cout <<  "-------------!!!!!!!!!!!" << type << std::endl;
 				if (type == DOUBLE_TYPE) {
 					_instructions[funcIndex].emplace_back(Operation::SNEW, 1);
 				}
 				_instructions[funcIndex].emplace_back(Operation::SNEW, 1);
 			}
 			else {
-				SymType secType;
-
-				std::cout << "-------------!!!!!!!!!!!" << secType << type<< std::endl;
-				if (secType == DOUBLE_TYPE) {
+				if (type == DOUBLE_TYPE) {
 					_instructions[funcIndex].emplace_back(Operation::IPUSH, 0);
 				}
 				_instructions[funcIndex].emplace_back(Operation::IPUSH, 0);
