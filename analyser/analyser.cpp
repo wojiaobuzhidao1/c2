@@ -1708,8 +1708,8 @@ namespace cc0 {
 		// 设置此处类型为 double
 			type = SymType::DOUBLE_TYPE;
 			// 将数字压栈
-			_instructions[funcIndex].emplace_back(Operation::IPUSH, strtoll(substr1.c_str(), NULL, 2));
 			_instructions[funcIndex].emplace_back(Operation::IPUSH, strtoll(substr2.c_str(), NULL, 2));
+			_instructions[funcIndex].emplace_back(Operation::IPUSH, strtoll(substr1.c_str(), NULL, 2));
 
 			break;
 		}
@@ -1783,7 +1783,7 @@ namespace cc0 {
 				_instructions[funcIndex].emplace_back(Operation::LOADA, level_diff, offset);
 				// 从栈中弹出地址，从地址处加载数据压栈
 				if (type == SymType::DOUBLE_TYPE) {
-					_instructions[funcIndex].emplace_back(Operation::DLOAD);
+					_instructions[funcIndex].emplace_back(Operation::DLOAD, offset, 0);
 				}
 				else
 					_instructions[funcIndex].emplace_back(Operation::ILOAD);
