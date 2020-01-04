@@ -1757,8 +1757,8 @@ namespace cc0 {
 				type = SymType::DOUBLE_TYPE;
 				// 将数字压栈
 
-				_instructions[funcIndex].emplace_back(Operation::IPUSH, strtoll(substr2.c_str(), NULL, 2));
 				_instructions[funcIndex].emplace_back(Operation::IPUSH, strtoll(substr1.c_str(), NULL, 2));
+				_instructions[funcIndex].emplace_back(Operation::IPUSH, strtoll(substr2.c_str(), NULL, 2));
 
 				break;
 			}
