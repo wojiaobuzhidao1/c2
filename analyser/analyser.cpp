@@ -438,15 +438,7 @@ namespace cc0 {
         if(err.has_value())
             return err;
 
-        // std::cout << "-------------------param type = " << secType << std::endl;
-
         SymType firstType = getFuncParamType(constIndex, param_num-paramNum);
-
-        // std::cout << "??????????????????   funcIndex = " << funcIndex << "  freq = " << param_num-paramNum << std::endl;
-
-        // printSym();
-
-        // std::cout << "--------------need type = " << firstType << std::endl;
 
         // 将右侧表达式隐式转换为左侧标识符的类型
         if(firstType == SymType::INT_TYPE) {
@@ -631,12 +623,12 @@ namespace cc0 {
                 // std::cout << "loop: isReturn? " << isReturn << std::boolalpha << std::endl;
                 break;
             }
-			case DO: {
+			/*case DO: {
 				auto err = analyseDoStatement(funcIndex, isReturn);
 				if (err.has_value())
 					return err;
 				break;
-			}
+			}*/
             case RETURN: { // <jump-statement> ::= <return-statement>
                 auto err = analyseJumpStatement(funcIndex);
                 if(err.has_value())
@@ -1735,14 +1727,19 @@ namespace cc0 {
 				try {
 					str = std::any_cast<std::string>(next.value().GetValue());
 					b = toDouble(str);
+					std::cout << b << ' ' << str << std::endl;
 				}
 				catch (const std::bad_any_cast&) {
 					return std::make_optional<CompilationError>(_current_pos, ErrorCode::ErrDouble);
 				}
 				// 设置此处类型为 double
-				type = SymType::INT_TYPE;
+				type = SymType::DOUBLE_TYPE;
 				// 将数字压栈
+
 				_instructions[funcIndex].emplace_back(Operation::IPUSH, b);
+
+				//_instructions[funcIndex].emplace_back(Operation::IPUSH, 0);
+				//_instructions[funcIndex].emplace_back(Operation::IPUSH, b);
 				break;
 			}
             case CHAR_TOKEN: {
