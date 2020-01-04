@@ -182,16 +182,17 @@ namespace cc0 {
 			// 全局变量未初始化直接默认为 0
 			if (funcIndex != -1) {
 				SymType secType;
-				//if (secType == DOUBLE_TYPE) {
-					//_instructions[funcIndex].emplace_back(Operation::SNEW, 1);
-				//}
+				// TODO
+				if (secType == DOUBLE_TYPE) {
+					_instructions[funcIndex].emplace_back(Operation::SNEW, 1);
+				}
 				_instructions[funcIndex].emplace_back(Operation::SNEW, 1);
 			}
 			else {
-				//SymType secType;
-				//if (secType == DOUBLE_TYPE) {
-					//_instructions[funcIndex].emplace_back(Operation::IPUSH, 0);
-				//}
+				SymType secType;
+				if (secType == DOUBLE_TYPE) {
+					_instructions[funcIndex].emplace_back(Operation::IPUSH, 0);
+				}
 				_instructions[funcIndex].emplace_back(Operation::IPUSH, 0);
 				initVar(funcIndex, ident.value().GetValueString());
 			}
