@@ -1128,6 +1128,8 @@ namespace cc0 {
 			offset = getVarIndex(funcIndex, ident.value().GetValueString());
 			level_diff = 0;
 		}
+
+		_constant_symbols.print();
 		// 加载变量的地址
 		_instructions[funcIndex].emplace_back(Operation::LOADA, level_diff, offset);
 
@@ -1195,6 +1197,7 @@ namespace cc0 {
 			level_diff = 0;
 		}
 
+		_constant_symbols.print();
 		// 生成指令
 		// 加载变量的地址
 		_instructions[funcIndex].emplace_back(Operation::LOADA, level_diff, offset);
@@ -1782,7 +1785,7 @@ namespace cc0 {
 					offset = getVarIndex(funcIndex, next.value().GetValueString());
 					level_diff = 0;
 				}
-				//TODO
+
 				_constant_symbols.print();
 				// 加载变量的地址
 				_instructions[funcIndex].emplace_back(Operation::LOADA, level_diff, offset);
