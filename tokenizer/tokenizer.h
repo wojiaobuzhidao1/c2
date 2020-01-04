@@ -21,18 +21,17 @@ namespace cc0 {
 
 		enum DFAState {
 			INITIAL_STATE, // init
-			INTEGER_STATE, // int
+			ZERO_STATE, // int
+			IDENTIFIER_STATE, // id
 			DECIMAL_INTEGER_STATE, // 10
 			HEXADECIMAL_INTEGER_STATE, // 16
 			CHAR_STATE,  // char
 			STRING_STATE, // string
 			PLUS_SIGN_STATE,  // +
 			MINUS_SIGN_STATE,  // -
-			DIVISION_SIGN_STATE,  // /
 			MULTIPLICATION_SIGN_STATE,  // *
- 			IDENTIFIER_STATE,
+			DIVISION_SIGN_STATE,  // /
 			EQUAL_SIGN_STATE,   // =
-			SEMICOLON_STATE,    // ;
 			LEFTBRACKET_STATE,  // (
 			RIGHTBRACKET_STATE,  // )
 			LEFT_BRACE_STATE,  // {
@@ -40,9 +39,15 @@ namespace cc0 {
 			LESS_SIGN_STATE,  // <
 			GREATER_SIGN_STATE,  //  >
             COMMA_SIGN_STATE,  // ,
+			SEMICOLON_STATE,    // ;
+			
+			ZERO_DIGIT_STATE, // 0+digit
+			DIGIT_STATE, // .digit
+			POINT_STATE, // .digit
+			E_STATE, // e...
             EXCLAMATION_SIGN_STATE,  // !
             SINGLE_LINE_COMMENT_STATE, // //
-            MULTI_LINE_COMMENT_STATE  // /* */
+            MULTI_LINE_COMMENT_STATE,  // /* */
 		};
 	public:
 		Tokenizer(std::istream& ifs)
@@ -62,7 +67,7 @@ namespace cc0 {
 		// 返回下一个 token，是 NextToken 实际实现部分
 		std::pair<std::optional<Token>, std::optional<CompilationError>> nextToken();
 
-		// 从这里开始其实是一个基于行号的缓冲区的实现
+		// 基于行号的缓冲区的实现
 		void readAll();
 
 		// nextPos() = (1, 0)
@@ -75,11 +80,11 @@ namespace cc0 {
 		std::pair<uint64_t, uint64_t> previousPos();
 		std::optional<char> nextChar();
 		bool isEOF();
-		bool isHex(char ch);
-		bool isCChar(char ch);
-		bool isSChar(char ch);
-		bool isEscape(std::stringstream& ss, char ch);
 		void unreadLast();
+		bool isHex(char ch);
+		bool isChar(char ch);
+		bool isEscape(std::stringstream& ss, char ch);
+		
 	private:
 		std::istream& _rdr;
 		// 如果没有初始化，那么就 readAll

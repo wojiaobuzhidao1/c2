@@ -12,12 +12,8 @@ namespace cc0 {
 	}
 
     // <C0-program> ::= {<variable-declaration>}{<function-definition>}
-    // variable: ['const'] <type-specifier> <identifier> [ '=' <expr> ] { ',' <init-declarator> }
-    // function: <type-specifier> <identifier> '(' [list] ')'
-    // 两条文法在无 const 的情况下有相同的 First V_t：<type-specifier> <identifier>
-    // 为了控制两个的顺序和处理 const，这里还是直接回溯吧
 	std::optional<CompilationError> Analyser::analyseC0Program() {
-	    // 有个参数表明是哪个函数的局部变量声明
+	    // @para: 哪个函数的局部变量声明
 	    // 这里是全局变量，用 -1 表示
 	    auto err = analyseVariableDeclaration(-1);
 	    if(err.has_value())
@@ -26,8 +22,6 @@ namespace cc0 {
 	    err = analyseFunctionDefinition();
 	    if(err.has_value())
 	        return err;
-
-	    // printSym();
 
 	    // 检查有没有 main 函数
 	    if(!isMainExisted())
@@ -62,7 +56,7 @@ namespace cc0 {
             if(next.value().GetType() == TokenType::CONST) {
                 isConst = true;
                 next = nextToken();
-                if(!next.has_value()) // const 后面就没了
+                if(!next.has_value())
                     return std::make_optional<CompilationError>(_current_pos, ErrorCode::ErrNeedType);
             }
 
@@ -88,13 +82,6 @@ namespace cc0 {
                 default:
                     return std::make_optional<CompilationError>(_current_pos, ErrorCode::ErrNeedType);
             }
-
-//            if(next.value().GetType() != TokenType::INT &&
-//               next.value().GetType() != TokenType::CHAR &&
-//               next.value().GetType() != TokenType::DOUBLE)
-//                return std::make_optional<CompilationError>(_current_pos, ErrorCode::ErrNeedType);
-
-            // 这里必然是 int/char/double 或 const int/char/double，由 isConst 和 type 判断
 
             // 如果没有 const，接下来先预读两个，如果是 <identifier> '('，说明需要跳转到函数定义
             if(!isConst) {
