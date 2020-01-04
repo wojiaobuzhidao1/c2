@@ -1132,7 +1132,7 @@ namespace cc0 {
             if(err.has_value())
                 return err;
 
-            std::cout << "print" << type << SymType::DOUBLE_TYPE << std::endl;
+            //std::cout << "print" << type << SymType::DOUBLE_TYPE << std::endl;
 
             // 生成指令：输出结果
             if(type == SymType::INT_TYPE)
@@ -1748,7 +1748,7 @@ namespace cc0 {
 				std::cout << "SubString" << substr1 << substr2 << std::endl;
 
 				std::cout << "strhl" << strh << strl << std::endl;*/
-
+				str = "0100000010010011001110000000000000000000000000000000000000000000";
 				std::string substr1 = str.substr(0, 32);
 				std::string substr2 = str.substr(32, 32);
 				std::cout << "SubString" << substr1 << substr2 << std::endl;
