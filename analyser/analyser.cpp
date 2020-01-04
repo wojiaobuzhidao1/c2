@@ -1753,12 +1753,38 @@ namespace cc0 {
 				std::string substr2 = str.substr(32, 32);
 				std::cout << "SubString" << substr1 << substr2 << std::endl;
 
+					std::string hex, out1, tmp;
+					int pos = 0;
+					for (int i = 0; i < 8; i++) {
+						tmp = substr1.substr(pos, 4);
+						std::cout << tmp << std::endl;
+						std::stringstream ss;
+						ss << std::hex << std::stoi(tmp, nullptr, 2);
+						ss >> hex;
+						out1.append(hex);
+						pos += 4;
+					}
+
+
+					std::string out2;
+					int pos = 0;
+					for (int i = 0; i < 8; i++) {
+						tmp = substr2.substr(pos, 4);
+						std::cout << tmp << std::endl;
+						std::stringstream ss;
+						ss << std::hex << std::stoi(tmp, nullptr, 2);
+						ss >> hex;
+						out2.append(hex);
+						pos += 4;
+					}
+					//transform(hex.begin(), hex.end(), hex.begin(), ::toupper);
+
 				// 设置此处类型为 double
 				type = SymType::DOUBLE_TYPE;
 				// 将数字压栈
 
-				_instructions[funcIndex].emplace_back(Operation::IPUSH, strtoll(substr1.c_str(), NULL, 2));
-				_instructions[funcIndex].emplace_back(Operation::IPUSH, strtoll(substr2.c_str(), NULL, 2));
+				_instructions[funcIndex].emplace_back(Operation::IPUSH, strtoll(out1.c_str(), NULL, 16));
+				_instructions[funcIndex].emplace_back(Operation::IPUSH, strtoll(out2.c_str(), NULL, 16));
 
 				break;
 			}
