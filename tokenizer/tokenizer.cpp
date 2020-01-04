@@ -940,7 +940,7 @@ namespace cc0 {
 			num = num * pow(10, index);
 		}
 		str_without_e = toStr(num, calSize(str_without_e, index));
-		return "4008FCB923A29C78";//3.1234
-		//return str_without_e;
+		//return "4008FCB923A29C78";//3.1234
+		return str_without_e;
 	}
 }
