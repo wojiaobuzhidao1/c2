@@ -1785,8 +1785,8 @@ namespace cc0 {
 				std::cout << "out:" << out1 << out2 << std::endl;
 
 				std::cout << "push:" << strtoll(out1.c_str(), NULL, 16) << strtoll(out2.c_str(), NULL, 16) << std::endl;
-				_instructions[funcIndex].emplace_back(Operation::IPUSH, strtoll(out1.c_str(), NULL, 16));
 				_instructions[funcIndex].emplace_back(Operation::IPUSH, strtoll(out2.c_str(), NULL, 16));
+				_instructions[funcIndex].emplace_back(Operation::IPUSH, strtoll(out1.c_str(), NULL, 16));
 
 				break;
 			}
