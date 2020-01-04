@@ -1748,10 +1748,10 @@ namespace cc0 {
 				std::cout << "SubString" << substr1 << substr2 << std::endl;
 
 				std::cout << "strhl" << strh << strl << std::endl;*/
-				str = "0100000010010011001110000000000000000000000000000000000000000000";
+				//str = "0100000010010011001110000000000000000000000000000000000000000000";
 				std::string substr1 = str.substr(0, 32);
 				std::string substr2 = str.substr(32, 32);
-				std::cout << "SubString" << substr1 << substr2 << std::endl;
+				//std::cout << "SubString" << substr1 << substr2 << std::endl;
 
 					std::string hex = "", out1 = "", tmp = "";
 					int pos = 0;
@@ -1782,7 +1782,9 @@ namespace cc0 {
 				// 设置此处类型为 double
 				type = SymType::DOUBLE_TYPE;
 				// 将数字压栈
-				std::cout << "SubString" << out1 << out2 << std::endl;
+				std::cout << "out:" << out1 << out2 << std::endl;
+
+				std::cout << "push:" << strtoll(out1.c_str(), NULL, 16) << strtoll(out2.c_str(), NULL, 16) << std::endl;
 				_instructions[funcIndex].emplace_back(Operation::IPUSH, strtoll(out1.c_str(), NULL, 16));
 				_instructions[funcIndex].emplace_back(Operation::IPUSH, strtoll(out2.c_str(), NULL, 16));
 
