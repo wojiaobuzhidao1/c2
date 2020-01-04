@@ -1734,7 +1734,7 @@ namespace cc0 {
 				}
 				// TODO
 				std::string substr1 = str.substr(0, 32);
-				std::string substr2 = str.substr(32, 64);
+				std::string substr2 = str.substr(32, 32);
 				std::cout << "SubString" << substr1 << substr2 << std::endl;
 
 				// 设置此处类型为 double
