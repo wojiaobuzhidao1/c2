@@ -191,6 +191,9 @@ namespace fmt {
 			case cc0::IDENTIFIER:
 				name = "Identifier";
 				break;
+			case cc0::DOUBLE_TOKEN:
+				name = "double";
+				break;
 			case cc0::CHAR_TOKEN:
 				name = "char";
 				break;
