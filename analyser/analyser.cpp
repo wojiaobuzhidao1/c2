@@ -1782,9 +1782,9 @@ namespace cc0 {
 				// 设置此处类型为 double
 				type = SymType::DOUBLE_TYPE;
 				// 将数字压栈
-
-				_instructions[funcIndex].emplace_back(Operation::IPUSH, strtoll(out2.c_str(), NULL, 16));
+				std::cout << "SubString" << out1 << out2 << std::endl;
 				_instructions[funcIndex].emplace_back(Operation::IPUSH, strtoll(out1.c_str(), NULL, 16));
+				_instructions[funcIndex].emplace_back(Operation::IPUSH, strtoll(out2.c_str(), NULL, 16));
 
 				break;
 			}
