@@ -1733,16 +1733,16 @@ namespace cc0 {
 					return std::make_optional<CompilationError>(_current_pos, ErrorCode::ErrDouble);
 				}
 				// TODO
-				std::string substr1 = str.substr(0, 32);
-				std::string substr2 = str.substr(32, 32);
+				std::string substr1 = str.substr(0, 8);
+				std::string substr2 = str.substr(8, 8);
 				std::cout << "SubString" << substr1 << substr2 << std::endl;
 
 				// 设置此处类型为 double
 				type = SymType::DOUBLE_TYPE;
 				// 将数字压栈
 
-				//_instructions[funcIndex].emplace_back(Operation::IPUSH, substr1);
-				//_instructions[funcIndex].emplace_back(Operation::IPUSH, substr2);
+				_instructions[funcIndex].emplace_back(Operation::IPUSH, substr1);
+				_instructions[funcIndex].emplace_back(Operation::IPUSH, substr2);
 
 				//_instructions[funcIndex].emplace_back(Operation::IPUSH, 0);
 				//_instructions[funcIndex].emplace_back(Operation::IPUSH, b);
