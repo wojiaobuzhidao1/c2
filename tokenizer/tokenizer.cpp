@@ -5,7 +5,6 @@
 #include <iostream>
 #include <vector>
 #include <cstring>
-#include <math.h>
 #include <sstream>
 #include <iomanip>
 
