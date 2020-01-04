@@ -1733,7 +1733,7 @@ namespace cc0 {
 				std::string str;
 				double b;
 				try {
-					str = std::any_cast<double>(next.value().GetValue());
+					str = std::any_cast<std::string>(next.value().GetValue());
 					b = toDouble(str);
 				}
 				catch (const std::bad_any_cast&) {
