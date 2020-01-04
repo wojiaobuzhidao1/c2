@@ -84,6 +84,11 @@ namespace cc0 {
 		bool isHex(char ch);
 		bool isChar(char ch);
 		bool isEscape(std::stringstream& ss, char ch);
+		int toNum(std::string str);
+		std::string toStr(double num, int size);
+		double toDouble(std::string str);
+		int calSize(std::string str, int index);
+		std::string IEEE754(std::string input);
 		
 	private:
 		std::istream& _rdr;

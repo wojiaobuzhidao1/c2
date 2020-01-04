@@ -145,6 +145,8 @@ namespace cc0 {
         // 设置变量为已初始化
         void initVar(int32_t funcIndex, std::string name);
 
+		double toDouble(std::string str);
+
 	private:
 		std::vector<Token> _tokens;
 		std::size_t _offset;

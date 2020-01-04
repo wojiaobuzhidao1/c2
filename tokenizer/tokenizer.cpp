@@ -2,6 +2,12 @@
 
 #include <cctype>
 #include <sstream>
+#include <iostream>
+#include <vector>
+#include <cstring>
+#include <math.h>
+#include <sstream>
+#include <iomanip>
 
 namespace cc0 {
 	std::pair<std::optional<Token>, std::optional<CompilationError>> Tokenizer::NextToken() {
@@ -166,8 +172,8 @@ namespace cc0 {
 					ss << ch;
 					current_char = nextChar();
 					if (!current_char.has_value()) {
-						// TODO
-						return std::make_pair(std::make_optional<Token>(TokenType::DOUBLE_TOKEN, ss.str(), pos, currentPos()), std::optional<CompilationError>());
+						
+						return std::make_pair(std::make_optional<Token>(TokenType::DOUBLE_TOKEN, IEEE754(ss.str()), pos, currentPos()), std::optional<CompilationError>());
 					}
 					ch = current_char.value();
 					if (cc0::isdigit(ch)) {
@@ -180,8 +186,8 @@ namespace cc0 {
 					}
 					else {
 						unreadLast();
-						// TODO
-						return std::make_pair(std::make_optional<Token>(TokenType::DOUBLE_TOKEN, ss.str(), pos, currentPos()), std::optional<CompilationError>());
+						
+						return std::make_pair(std::make_optional<Token>(TokenType::DOUBLE_TOKEN, IEEE754(ss.str()), pos, currentPos()), std::optional<CompilationError>());
 					}
 				}
 				else if (ch == 'e' || ch == 'E') {
@@ -210,8 +216,8 @@ namespace cc0 {
 					ss << ch;
 					current_char = nextChar();
 					if (!current_char.has_value()) {
-						// TODO
-						return std::make_pair(std::make_optional<Token>(TokenType::DOUBLE_TOKEN, ss.str(), pos, currentPos()), std::optional<CompilationError>());
+						
+						return std::make_pair(std::make_optional<Token>(TokenType::DOUBLE_TOKEN, IEEE754(ss.str()), pos, currentPos()), std::optional<CompilationError>());
 					}
 					ch = current_char.value();
 					if (cc0::isdigit(ch)) {
@@ -224,8 +230,8 @@ namespace cc0 {
 					}
 					else {
 						unreadLast();
-						// TODO
-						return std::make_pair(std::make_optional<Token>(TokenType::DOUBLE_TOKEN, ss.str(), pos, currentPos()), std::optional<CompilationError>());
+						
+						return std::make_pair(std::make_optional<Token>(TokenType::DOUBLE_TOKEN, IEEE754(ss.str()), pos, currentPos()), std::optional<CompilationError>());
 					}
 				}
 				else if (ch == 'e' || ch == 'E') {
@@ -299,8 +305,8 @@ namespace cc0 {
 					ss << ch;
 					current_char = nextChar();
 					if (!current_char.has_value()) {
-						// TODO
-						return std::make_pair(std::make_optional<Token>(TokenType::DOUBLE_TOKEN, ss.str(), pos, currentPos()), std::optional<CompilationError>());
+						
+						return std::make_pair(std::make_optional<Token>(TokenType::DOUBLE_TOKEN, IEEE754(ss.str()), pos, currentPos()), std::optional<CompilationError>());
 					}
 					ch = current_char.value();
 					if (cc0::isdigit(ch)) {
@@ -312,8 +318,8 @@ namespace cc0 {
 						current_state = DFAState::E_STATE;
 					}
 					else {
-						// TODO
-						return std::make_pair(std::make_optional<Token>(TokenType::DOUBLE_TOKEN, ss.str(), pos, currentPos()), std::optional<CompilationError>());
+						
+						return std::make_pair(std::make_optional<Token>(TokenType::DOUBLE_TOKEN, IEEE754(ss.str()), pos, currentPos()), std::optional<CompilationError>());
 					}
 				}
 				else if (ch == 'e' || ch == 'E') {
@@ -644,8 +650,8 @@ namespace cc0 {
 								  //<floating-literal> ::= [<digit-seq>]'.'<digit-seq>[<exponent>]
 			case DIGIT_STATE: {
 				if (!current_char.has_value()) {
-					// TODO
-					return std::make_pair(std::make_optional<Token>(TokenType::DOUBLE_TOKEN, ss.str(), pos, currentPos()), std::optional<CompilationError>());
+					
+					return std::make_pair(std::make_optional<Token>(TokenType::DOUBLE_TOKEN, IEEE754(ss.str()), pos, currentPos()), std::optional<CompilationError>());
 				}
 				auto ch = current_char.value();
 				if (ch == 'e' || ch == 'E') {
@@ -657,8 +663,8 @@ namespace cc0 {
 				}
 				else {
 					unreadLast();
-					// TODO
-					return std::make_pair(std::make_optional<Token>(TokenType::DOUBLE_TOKEN, ss.str(), pos, currentPos()), std::optional<CompilationError>());
+					
+					return std::make_pair(std::make_optional<Token>(TokenType::DOUBLE_TOKEN, IEEE754(ss.str()), pos, currentPos()), std::optional<CompilationError>());
 				}
 				break;
 			}
@@ -694,8 +700,8 @@ namespace cc0 {
 					while (true) {
 						current_char = nextChar();
 						if (!current_char.has_value()) {
-							// TODO
-							return std::make_pair(std::make_optional<Token>(TokenType::DOUBLE_TOKEN, ss.str(), pos, currentPos()), std::optional<CompilationError>());
+							
+							return std::make_pair(std::make_optional<Token>(TokenType::DOUBLE_TOKEN, IEEE754(ss.str()), pos, currentPos()), std::optional<CompilationError>());
 						}
 						auto ch = current_char.value();
 						if (cc0::isdigit(ch)) {
@@ -703,8 +709,8 @@ namespace cc0 {
 						}
 						else {
 							unreadLast();
-							// TODO
-							return std::make_pair(std::make_optional<Token>(TokenType::DOUBLE_TOKEN, ss.str(), pos, currentPos()), std::optional<CompilationError>());
+							
+							return std::make_pair(std::make_optional<Token>(TokenType::DOUBLE_TOKEN, IEEE754(ss.str()), pos, currentPos()), std::optional<CompilationError>());
 						}
 					}
 				}
@@ -864,4 +870,73 @@ namespace cc0 {
 		return flag;
 	}
 
+	int Tokenizer::toNum(std::string str) {
+		int out;
+		std::stringstream ss;
+		ss << str;
+		ss >> out;
+		return out;
+	}
+
+	std::string Tokenizer::toStr(double num, int size) {
+		std::string out;
+		std::stringstream ss;
+		ss << std::fixed << std::setprecision(size) << num;
+		ss >> out;
+		return out;
+	}
+
+	double Tokenizer::toDouble(std::string str) {
+		std::stringstream s;
+		double out;
+		s << str;
+		s >> out;
+		return out;
+	}
+
+	int Tokenizer::calSize(std::string str, int index) {
+		int before = 0, after = 0, point = 0;
+		for (int i = 0; i < str.length(); i++) {
+			if (str.at(i) == '.') {
+				point = 1;
+			}
+			else if (point == 0) {
+				before++;
+			}
+			else {
+				after++;
+			}
+		}
+		if (index > 0 && after < index) {
+			return str.length() + index - after;
+		}
+		else if (index < 0 && -index > before) {
+			return str.length() - index - before;
+		}
+		return str.length();
+	}
+
+	std::string Tokenizer::IEEE754(std::string input) {
+		std::string e_index;//指数部分
+		std::string str_without_e;//处理完e后的字符串
+		int eFlag = 0;//判断是否存在e|E
+		for (int i = 0; i < input.length(); i++) {
+			if (input.at(i) == ('E' | 'e')) {
+				eFlag = 1;
+				for (i = i + 1; i < input.length(); i++) {
+					e_index = e_index + input.at(i);
+				}
+				break;
+			}
+			str_without_e = str_without_e + input.at(i);
+		}
+		double num = toDouble(str_without_e);
+		int index = 0;
+		if (eFlag) {
+			index = toNum(e_index);
+			num = num * pow(10, index);
+		}
+		str_without_e = toStr(num, calSize(str_without_e, index));
+		return str_without_e;
+	}
 }

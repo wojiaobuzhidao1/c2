@@ -1,6 +1,13 @@
 #include "analyser.h"
 
 #include <climits>
+#include <cctype>
+#include <sstream>
+#include <iostream>
+#include <vector>
+#include <cstring>
+#include <sstream>
+#include <iomanip>
 
 namespace cc0 {
 	std::pair<std::map<int32_t ,std::vector<Instruction>>, std::optional<CompilationError>> Analyser::Analyse() {
@@ -1723,9 +1730,11 @@ namespace cc0 {
                 break;
             }
 			case DOUBLE_TOKEN: {
-				/*double b;
+				std::string str;
+				double b;
 				try {
-					b = std::any_cast<double>(next.value().GetValue());
+					str = std::any_cast<double>(next.value().GetValue());
+					b = toDouble(str);
 				}
 				catch (const std::bad_any_cast&) {
 					return std::make_optional<CompilationError>(_current_pos, ErrorCode::ErrDouble);
@@ -1734,7 +1743,7 @@ namespace cc0 {
 				type = SymType::INT_TYPE;
 				// 将数字压栈
 				_instructions[funcIndex].emplace_back(Operation::IPUSH, b);
-				break;*/
+				break;
 			}
             case CHAR_TOKEN: {
                 char ch;
@@ -1923,6 +1932,14 @@ namespace cc0 {
             std::cout << "funcIndex: " << iter->first << std::endl;
             iter->second.print();
         }
+	}
+
+	double Analyser::toDouble(std::string str) {
+		std::stringstream s;
+		double out;
+		s << str;
+		s >> out;
+		return out;
 	}
 
 }
