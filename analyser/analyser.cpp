@@ -1792,8 +1792,8 @@ namespace cc0 {
 		// 设置此处类型为 double
 			type = SymType::DOUBLE_TYPE;
 			// 将数字压栈
-			_instructions[funcIndex].emplace_back(Operation::IPUSH, strtoll(substr1.c_str(), NULL, 2));
-			_instructions[funcIndex].emplace_back(Operation::IPUSH, strtoll(substr2.c_str(), NULL, 2));
+			//_instructions[funcIndex].emplace_back(Operation::IPUSH, strtoll(substr1.c_str(), NULL, 2));
+			_instructions[funcIndex].emplace_back(Operation::IPUSH, strtoll(str.c_str(), NULL, 2));
 
 			break;
 		}
@@ -1931,6 +1931,14 @@ namespace cc0 {
 		return _constant_symbols.isConstantExisted(type, name);
 	}
 
+	double Analyser::toDouble(std::string str) {
+		std::stringstream s;
+		double out;
+		s << str;
+		s >> out;
+		return out;
+	}
+
 	bool Analyser::isInit(int32_t funcIndex, std::string name) {
 		return _var_symbols[funcIndex].isInit(name);
 	}
@@ -1957,14 +1965,6 @@ namespace cc0 {
 
 	int32_t Analyser::getFuncOrder(std::string name) {
 		return _constant_symbols.getFuncOrder(name);
-	}
-
-	double Analyser::toDouble(std::string str) {
-		std::stringstream s;
-		double out;
-		s << str;
-		s >> out;
-		return out;
 	}
 
 	std::string Analyser::getFuncName(int32_t funcIndex) {
