@@ -1753,27 +1753,27 @@ namespace cc0 {
 				std::string substr2 = str.substr(32, 32);
 				std::cout << "SubString" << substr1 << substr2 << std::endl;
 
-					std::string hex, out1, tmp;
+					std::string hex = "", out1 = "", tmp = "";
 					int pos = 0;
 					for (int i = 0; i < 8; i++) {
 						tmp = substr1.substr(pos, 4);
 						std::cout << tmp << std::endl;
-						std::stringstream ss;
-						ss << std::hex << std::stoi(tmp, nullptr, 2);
-						ss >> hex;
+						std::stringstream tmpss;
+						tmpss << std::hex << std::stoi(tmp, nullptr, 2);
+						tmpss >> hex;
 						out1.append(hex);
 						pos += 4;
 					}
 
 
-					std::string out2;
+					std::string out2 = "";
 					pos = 0;
 					for (int i = 0; i < 8; i++) {
 						tmp = substr2.substr(pos, 4);
 						std::cout << tmp << std::endl;
-						std::stringstream ss;
-						ss << std::hex << std::stoi(tmp, nullptr, 2);
-						ss >> hex;
+						std::stringstream tmpss;
+						tmpss << std::hex << std::stoi(tmp, nullptr, 2);
+						tmpss >> hex;
 						out2.append(hex);
 						pos += 4;
 					}
