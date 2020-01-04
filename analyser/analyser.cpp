@@ -1793,8 +1793,6 @@ namespace cc0 {
 			type = SymType::DOUBLE_TYPE;
 			// 将数字压栈
 			_instructions[funcIndex].emplace_back(Operation::IPUSH, strtoll(substr1.c_str(), NULL, 2));
-
-			_instructions[funcIndex].emplace_back(Operation::SNEW, 1);
 			_instructions[funcIndex].emplace_back(Operation::IPUSH, strtoll(substr2.c_str(), NULL, 2));
 
 			break;
@@ -1961,6 +1959,14 @@ namespace cc0 {
 		return _constant_symbols.getFuncOrder(name);
 	}
 
+	double Analyser::toDouble(std::string str) {
+		std::stringstream s;
+		double out;
+		s << str;
+		s >> out;
+		return out;
+	}
+
 	std::string Analyser::getFuncName(int32_t funcIndex) {
 		return _constant_symbols.getNameByIndex(funcIndex);
 	}
@@ -1979,25 +1985,6 @@ namespace cc0 {
 
 	void Analyser::initVar(int32_t funcIndex, std::string name) {
 		_var_symbols[funcIndex].initVar(name);
-	}
-
-	void Analyser::printSym() {
-		std::cout << "constant: " << std::endl;
-		_constant_symbols.print();
-		std::cout << "var: " << std::endl;
-		auto iter = _var_symbols.begin();
-		for (; iter != _var_symbols.end(); iter++) {
-			std::cout << "funcIndex: " << iter->first << std::endl;
-			iter->second.print();
-		}
-	}
-
-	double Analyser::toDouble(std::string str) {
-		std::stringstream s;
-		double out;
-		s << str;
-		s >> out;
-		return out;
 	}
 
 }
