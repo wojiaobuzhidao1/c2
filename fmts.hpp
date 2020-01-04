@@ -154,7 +154,7 @@ namespace fmt {
 
 		template <typename FormatContext>
 		auto format(const cc0::CompilationError &p, FormatContext &ctx) {
-			return format_to(ctx.out(), "Line: {} Column: {} Error: {}", p.GetPos().first, p.GetPos().second, p.GetCode());
+			return format_to(ctx.out(), "Line: {} Column: {} Error: {}", p.GetPos().first+1, p.GetPos().second, p.GetCode());
 		}
 	};
 }
