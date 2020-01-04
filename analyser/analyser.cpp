@@ -1754,28 +1754,40 @@ namespace cc0 {
 				//std::cout << "SubString" << substr1 << substr2 << std::endl;
 
 					std::string hex = "", out1 = "", tmp = "";
-					int pos = 0;
-					for (int i = 0; i < 8; i++) {
+					int pos = 24;
+					for (int i = 0; i < 4; i++) {
 						tmp = substr1.substr(pos, 4);
 						//std::cout << tmp << std::endl;
-						std::stringstream tmpss;
-						tmpss << std::hex << std::stoi(tmp, nullptr, 2);
-						tmpss >> hex;
+						std::stringstream tmpss1;
+						tmpss1 << std::hex << std::stoi(tmp, nullptr, 2);
+						tmpss1 >> hex;
 						out1.append(hex);
-						pos -= 4;
+						pos += 4;
+						tmp = substr1.substr(pos, 4);
+						//std::cout << tmp << std::endl;
+						std::stringstream tmpss2;
+						tmpss2 << std::hex << std::stoi(tmp, nullptr, 2);
+						tmpss2 >> hex;
+						out1.append(hex);
+						pos -= 8;
 					}
 
 
 					std::string out2 = "";
-					pos = 0;
-					for (int i = 0; i < 8; i++) {
+					pos = 24;
+					for (int i = 0; i < 4; i++) {
 						tmp = substr2.substr(pos, 4);
 						//std::cout << tmp << std::endl;
-						std::stringstream tmpss;
-						tmpss << std::hex << std::stoi(tmp, nullptr, 2);
-						tmpss >> hex;
+						std::stringstream tmpss1;
+						tmpss1 << std::hex << std::stoi(tmp, nullptr, 2);
+						tmpss1 >> hex;
 						out2.append(hex);
 						pos += 4;
+						std::stringstream tmpss2;
+						tmpss2 << std::hex << std::stoi(tmp, nullptr, 2);
+						tmpss2 >> hex;
+						out2.append(hex);
+						pos -= 8;
 					}
 					//transform(hex.begin(), hex.end(), hex.begin(), ::toupper);
 
