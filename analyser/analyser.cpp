@@ -1754,28 +1754,28 @@ namespace cc0 {
 				//std::cout << "SubString" << substr1 << substr2 << std::endl;
 
 					std::string hex = "", out1 = "", tmp = "";
-					int pos = 0;
+					int pos = 28;
 					for (int i = 0; i < 8; i++) {
 						tmp = substr1.substr(pos, 4);
-						std::cout << tmp << std::endl;
+						//std::cout << tmp << std::endl;
 						std::stringstream tmpss;
 						tmpss << std::hex << std::stoi(tmp, nullptr, 2);
 						tmpss >> hex;
 						out1.append(hex);
-						pos += 4;
+						pos -= 4;
 					}
 
 
 					std::string out2 = "";
-					pos = 0;
+					pos = 28;
 					for (int i = 0; i < 8; i++) {
 						tmp = substr2.substr(pos, 4);
-						std::cout << tmp << std::endl;
+						//std::cout << tmp << std::endl;
 						std::stringstream tmpss;
 						tmpss << std::hex << std::stoi(tmp, nullptr, 2);
 						tmpss >> hex;
 						out2.append(hex);
-						pos += 4;
+						pos -= 4;
 					}
 					//transform(hex.begin(), hex.end(), hex.begin(), ::toupper);
 
