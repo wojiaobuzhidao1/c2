@@ -624,6 +624,12 @@ namespace cc0 {
                 // std::cout << "loop: isReturn? " << isReturn << std::boolalpha << std::endl;
                 break;
             }
+			case DO: {
+				auto err = analyseDoStatement(funcIndex, isReturn);
+				if (err.has_value())
+					return err;
+				break;
+			}
             case RETURN: { // <jump-statement> ::= <return-statement>
                 auto err = analyseJumpStatement(funcIndex);
                 if(err.has_value())
@@ -880,6 +886,92 @@ namespace cc0 {
 
         return {};
     }
+
+	std::optional<CompilationError>Analyser::analyseDoStatement(int32_t funcIndex, bool& isReturn) {
+		// 'do'
+		auto next = nextToken();
+		if (!next.has_value() || next.value().GetType() != TokenType::DO)
+			return std::make_optional<CompilationError>(_current_pos, ErrorCode::ErrInvalidDoStatement);
+
+		// '('
+		next = nextToken();
+		if (!next.has_value() || next.value().GetType() != TokenType::LEFT_BRACKET)
+			return std::make_optional<CompilationError>(_current_pos, ErrorCode::ErrInvalidDoStatement);
+
+		auto i = _instructions[funcIndex].size();
+
+		// <condition>
+		TokenType type = TokenType::NULL_TOKEN;
+		auto err = analyseCondition(type, funcIndex);
+		if (err.has_value())
+			return err;
+
+		auto now = _instructions[funcIndex].size();
+		int times = now - i;
+		// 将 <condition> 生成的指令先挪出来
+		std::vector<Instruction> conditions; // 备份到这
+		for (; i != now; i++) {
+			conditions.emplace_back(_instructions[funcIndex][i]);
+		}
+		while (times--)
+			_instructions[funcIndex].pop_back();
+
+		// 生成一个跳转指令，循环开始之前先跳转到后面进行判断
+		auto tmp = _instructions[funcIndex].size();
+		_instructions[funcIndex].emplace_back(Operation::JMP);
+
+		// ')'
+		next = nextToken();
+		if (!next.has_value() || next.value().GetType() != TokenType::RIGHT_BRACKET)
+			return std::make_optional<CompilationError>(_current_pos, ErrorCode::ErrInvalidLoopStatement);
+
+		// 标记循环体的开始位置
+		auto begin = _instructions[funcIndex].size();
+
+		// <statement>
+		err = analyseStatement(funcIndex, isReturn);
+		if (err.has_value())
+			return err;
+
+		// 设置上述 jmp 指令的 offset
+		_instructions[funcIndex][tmp].setX(_instructions[funcIndex].size());
+
+		// 把条件判断指令放在这里
+		for (auto& it : conditions) {
+			_instructions[funcIndex].emplace_back(std::move(it));
+		}
+
+		// 设置跳转指令，满足条件就跳转到循环体开始位置
+		Operation opt;
+		switch (type) {
+		case NULL_TOKEN:  // if(a)，栈顶 value == a
+			opt = Operation::JNE; // je：value 是 0 就跳转
+			break;
+		case LESS_SIGN:  // if(a < b)，栈顶 value ==
+			opt = Operation::JL;
+			break;
+		case LESS_EQUAL_SIGN:
+			opt = Operation::JLE;
+			break;
+		case GREATER_SIGN:
+			opt = Operation::JG;
+			break;
+		case GREATER_EQUAL_SIGN:
+			opt = Operation::JGE;
+			break;
+		case EQUAL_SIGN:
+			opt = Operation::JE;
+			break;
+		case NONEQUAL_SIGN:
+			opt = Operation::JNE;
+			break;
+		default:
+			break;
+		}
+		_instructions[funcIndex].emplace_back(opt, begin);
+
+		return {};
+	}
 
     // <jump-statement> ::= <return-statement> ::= 'return' [<expression>] ';'
     std::optional<CompilationError>Analyser::analyseJumpStatement(int32_t funcIndex) {
@@ -1600,6 +1692,7 @@ namespace cc0 {
 	    if(!next.has_value() ||
 	      (next.value().GetType() != TokenType::LEFT_BRACKET &&
 	       next.value().GetType() != TokenType::INTEGER &&
+		   next.value().GetType()!=TokenType::DOUBLE_TOKEN &&
 	       next.value().GetType() != TokenType::CHAR_TOKEN &&
 	       next.value().GetType() != TokenType::IDENTIFIER)
 	       )
@@ -1625,11 +1718,24 @@ namespace cc0 {
                 }
                 // 设置此处类型为 int
                 type = SymType::INT_TYPE;
-                // 如果是大字节数据就添加到常量表，然后添加 loadc 指令
                 // 将数字压栈
                 _instructions[funcIndex].emplace_back(Operation::IPUSH, val);
                 break;
             }
+			case DOUBLE_TOKEN: {
+				double b;
+				try {
+					b = std::any_cast<double>(next.value().GetValue());
+				}
+				catch (const std::bad_any_cast&) {
+					return std::make_optional<CompilationError>(_current_pos, ErrorCode::ErrDouble);
+				}
+				// 设置此处类型为 double
+				type = SymType::INT_TYPE;
+				// 将数字压栈
+				_instructions[funcIndex].emplace_back(Operation::IPUSH, b);
+				break;
+			}
             case CHAR_TOKEN: {
                 char ch;
                 try {

@@ -70,7 +70,10 @@ namespace fmt {
 				name = "The condition statement is invalid.";
 				break;
 			case cc0::ErrInvalidLoopStatement:
-				name = "The loop statement is invalid.";
+				name = "The loop(while) statement is invalid.";
+				break;
+			case cc0::ErrInvalidDoStatement:
+				name = "The loop(do - while) statement is invalid.";
 				break;
 			case cc0::ErrInvalidReturnStatement:
 				name = "The return statement is invalid.";
@@ -113,13 +116,13 @@ namespace fmt {
 				name = "The expression is incomplete.";
 				break;
 			case cc0::ErrNotDeclared:
-				name = "The variable or constant must be declared before being used.";
+				name = "The variable must be declared before being used.";
 				break;
 			case cc0::ErrAssignToConstant:
 				name = "Trying to assign value to a constant.";
 				break;
 			case cc0::ErrDuplicateDeclaration:
-				name = "The variable or constant or function has been declared.";
+				name = "The variable or function has been declared before.";
 				break;
 			case cc0::ErrNotInitialized:
 				name = "The variable has not been initialized.";
@@ -135,6 +138,9 @@ namespace fmt {
 				break;
 			case cc0::ErrIncompleteCommit:
 				name = "The commit is incomplete.";
+				break;
+			case cc0::ErrDouble:
+				name = "There are something wrong in double.";
 				break;
 			}
 			return format_to(ctx.out(), name);

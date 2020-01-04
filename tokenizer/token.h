@@ -14,6 +14,7 @@ namespace cc0 {
 		IDENTIFIER,
 		CHAR_TOKEN,
 		STRING,
+		DOUBLE_TOKEN,
 
 		CONST,
 		VOID,

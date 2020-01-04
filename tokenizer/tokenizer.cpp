@@ -169,7 +169,7 @@ namespace cc0 {
 					current_char = nextChar();
 					if (!current_char.has_value()) {
 						// TODO
-						return std::make_pair(std::make_optional<Token>(TokenType::DOUBLE, ss.str(), pos, currentPos()), std::optional<CompilationError>());
+						return std::make_pair(std::make_optional<Token>(TokenType::DOUBLE_TOKEN, ss.str(), pos, currentPos()), std::optional<CompilationError>());
 					}
 					ch = current_char.value();
 					if (cc0::isdigit(ch)) {
@@ -183,7 +183,7 @@ namespace cc0 {
 					else {
 						unreadLast();
 						// TODO
-						return std::make_pair(std::make_optional<Token>(TokenType::DOUBLE, ss.str(), pos, currentPos()), std::optional<CompilationError>());
+						return std::make_pair(std::make_optional<Token>(TokenType::DOUBLE_TOKEN, ss.str(), pos, currentPos()), std::optional<CompilationError>());
 					}
 				}
 				else if (ch == 'e' || ch == 'E') {
@@ -211,7 +211,7 @@ namespace cc0 {
 					current_char = nextChar();
 					if (!current_char.has_value()) {
 						// TODO
-						return std::make_pair(std::make_optional<Token>(TokenType::DOUBLE, ss.str(), pos, currentPos()), std::optional<CompilationError>());
+						return std::make_pair(std::make_optional<Token>(TokenType::DOUBLE_TOKEN, ss.str(), pos, currentPos()), std::optional<CompilationError>());
 					}
 					ch = current_char.value();
 					if (cc0::isdigit(ch)) {
@@ -225,7 +225,7 @@ namespace cc0 {
 					else {
 						unreadLast();
 						// TODO
-						return std::make_pair(std::make_optional<Token>(TokenType::DOUBLE, ss.str(), pos, currentPos()), std::optional<CompilationError>());
+						return std::make_pair(std::make_optional<Token>(TokenType::DOUBLE_TOKEN, ss.str(), pos, currentPos()), std::optional<CompilationError>());
 					}
 				}
 				else if (ch == 'e' || ch == 'E') {
@@ -300,7 +300,7 @@ namespace cc0 {
 					current_char = nextChar();
 					if (!current_char.has_value()) {
 						// TODO
-						return std::make_pair(std::make_optional<Token>(TokenType::DOUBLE, ss.str(), pos, currentPos()), std::optional<CompilationError>());
+						return std::make_pair(std::make_optional<Token>(TokenType::DOUBLE_TOKEN, ss.str(), pos, currentPos()), std::optional<CompilationError>());
 					}
 					ch = current_char.value();
 					if (cc0::isdigit(ch)) {
@@ -313,7 +313,7 @@ namespace cc0 {
 					}
 					else {
 						// TODO
-						return std::make_pair(std::make_optional<Token>(TokenType::DOUBLE, ss.str(), pos, currentPos()), std::optional<CompilationError>());
+						return std::make_pair(std::make_optional<Token>(TokenType::DOUBLE_TOKEN, ss.str(), pos, currentPos()), std::optional<CompilationError>());
 					}
 				}
 				else if (ch == 'e' || ch == 'E') {
@@ -645,7 +645,7 @@ namespace cc0 {
 			case DIGIT_STATE: {
 				if (!current_char.has_value()) {
 					// TODO
-					return std::make_pair(std::make_optional<Token>(TokenType::DOUBLE, ss.str(), pos, currentPos()), std::optional<CompilationError>());
+					return std::make_pair(std::make_optional<Token>(TokenType::DOUBLE_TOKEN, ss.str(), pos, currentPos()), std::optional<CompilationError>());
 				}
 				auto ch = current_char.value();
 				if (ch == 'e' || ch == 'E') {
@@ -658,7 +658,7 @@ namespace cc0 {
 				else {
 					unreadLast();
 					// TODO
-					return std::make_pair(std::make_optional<Token>(TokenType::DOUBLE, ss.str(), pos, currentPos()), std::optional<CompilationError>());
+					return std::make_pair(std::make_optional<Token>(TokenType::DOUBLE_TOKEN, ss.str(), pos, currentPos()), std::optional<CompilationError>());
 				}
 				break;
 			}
@@ -681,7 +681,7 @@ namespace cc0 {
 			
 			case E_STATE: {
 				if (!current_char.has_value()) {
-					return std::make_pair(std::make_optional<Token>(TokenType::DOUBLE, ss.str(), pos, currentPos()), std::optional<CompilationError>());
+					return std::make_pair(std::make_optional<Token>(TokenType::DOUBLE_TOKEN, ss.str(), pos, currentPos()), std::optional<CompilationError>());
 				}
 				auto ch = current_char.value();
 				if (ch == '+' || ch == '-') {
@@ -693,7 +693,7 @@ namespace cc0 {
 						current_char = nextChar();
 						if (!current_char.has_value()) {
 							// TODO
-							return std::make_pair(std::make_optional<Token>(TokenType::DOUBLE, ss.str(), pos, currentPos()), std::optional<CompilationError>());
+							return std::make_pair(std::make_optional<Token>(TokenType::DOUBLE_TOKEN, ss.str(), pos, currentPos()), std::optional<CompilationError>());
 						}
 						auto ch = current_char.value();
 						if (cc0::isdigit(ch)) {
@@ -702,14 +702,15 @@ namespace cc0 {
 						else {
 							unreadLast();
 							// TODO
-							return std::make_pair(std::make_optional<Token>(TokenType::DOUBLE, ss.str(), pos, currentPos()), std::optional<CompilationError>());
+							return std::make_pair(std::make_optional<Token>(TokenType::DOUBLE_TOKEN, ss.str(), pos, currentPos()), std::optional<CompilationError>());
 						}
 					}
 				}
 				else {
 					unreadLast();
-					return std::make_pair(std::make_optional<Token>(TokenType::DOUBLE, ss.str(), pos, currentPos()), std::optional<CompilationError>());
+					return std::make_pair(std::make_optional<Token>(TokenType::DOUBLE_TOKEN, ss.str(), pos, currentPos()), std::optional<CompilationError>());
 				}
+				break;
 			}
 
 							   // 预料之外的状态，如果执行到了这里，说明程序异常

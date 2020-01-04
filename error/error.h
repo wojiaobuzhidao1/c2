@@ -39,6 +39,7 @@ namespace cc0 {
 		ErrInvalidStatementSeq,
 		ErrInvalidConditionStatement,
         ErrInvalidLoopStatement,
+		ErrInvalidDoStatement,
         ErrInvalidReturnStatement,
         ErrInvalidPrintStatement,
         ErrInvalidScanStatement,
@@ -60,7 +61,8 @@ namespace cc0 {
 		ErrNotInitialized,
 		ErrInvalidAssignment,
 		ErrInvalidPrint,
-		ErrIncompleteCommit
+		ErrIncompleteCommit,
+		ErrDouble,
 	};
 
 	class CompilationError final{

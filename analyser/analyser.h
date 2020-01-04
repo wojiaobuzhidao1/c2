@@ -70,6 +70,8 @@ namespace cc0 {
         std::optional<CompilationError> analyseConditionStatement(int32_t funcIndex, bool& isReturn);
         // <loop-statement>
         std::optional<CompilationError> analyseLoopStatement(int32_t funcIndex, bool& isReturn);
+
+		std::optional<CompilationError> analyseDoStatement(int32_t funcIndex, bool& isReturn);
         // <jump-statement>
         std::optional<CompilationError> analyseJumpStatement(int32_t funcIndex);
         // <print-statement>
