@@ -1723,7 +1723,7 @@ namespace cc0 {
                 break;
             }
 			case DOUBLE_TOKEN: {
-				double b;
+				/*double b;
 				try {
 					b = std::any_cast<double>(next.value().GetValue());
 				}
@@ -1734,7 +1734,7 @@ namespace cc0 {
 				type = SymType::INT_TYPE;
 				// 将数字压栈
 				_instructions[funcIndex].emplace_back(Operation::IPUSH, b);
-				break;
+				break;*/
 			}
             case CHAR_TOKEN: {
                 char ch;

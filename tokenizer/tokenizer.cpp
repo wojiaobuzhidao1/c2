@@ -686,8 +686,10 @@ namespace cc0 {
 				auto ch = current_char.value();
 				if (ch == '+' || ch == '-') {
 					ss << ch;
+					current_char = nextChar();
+					ch = current_char.value();
 				}
-				else if (cc0::isdigit(ch)) {
+				if (cc0::isdigit(ch)) {
 					ss << ch;
 					while (true) {
 						current_char = nextChar();
