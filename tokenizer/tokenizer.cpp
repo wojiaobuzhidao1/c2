@@ -455,7 +455,7 @@ namespace cc0 {
 
 				// <c-char>|<escape-seq>
 				auto ch = current_char.value();
-				if (isChar(ch))
+				if (isChar(ch) || ch == '\"')
 					ss << ch;
 				else if (ch == '\\') {
 					current_char = nextChar();
@@ -480,7 +480,7 @@ namespace cc0 {
 				char ch;
 				while (true) {
 					ch = current_char.value();
-					if (isChar(ch))
+					if (isChar(ch) || ch == '\'')
 						ss << ch;
 					else if (ch == '\\') {
 						current_char = nextChar();
@@ -819,8 +819,7 @@ namespace cc0 {
 		case '_': case '(': case ')': case '[': case ']': case '{': case '}':
 		case '<': case '=': case '>': case '.': case ',': case ':': case ';':
 		case '!': case '?': case '+': case '-': case '*': case '/': case '%':
-		case '^': case '&': case '|': case '~': case '\"': case '`': case '$':
-		case '#': case '@':
+		case '^': case '&': case '|': case '~': case '`': case '$':case '#': case '@':
 			return true;
 		default:
 			return false;
