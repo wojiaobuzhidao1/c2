@@ -1782,7 +1782,8 @@ namespace cc0 {
 					offset = getVarIndex(funcIndex, next.value().GetValueString());
 					level_diff = 0;
 				}
-
+				//TODO
+				_constant_symbols.print();
 				// 加载变量的地址
 				_instructions[funcIndex].emplace_back(Operation::LOADA, level_diff, offset);
 				// 从栈中弹出地址，从地址处加载数据压栈
