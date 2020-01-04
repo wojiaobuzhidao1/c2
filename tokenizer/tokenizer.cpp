@@ -158,8 +158,6 @@ namespace cc0 {
 					ss << ch;
 					current_state = DFAState::HEXADECIMAL_INTEGER_STATE;
 				}
-				else if (cc0::isalpha(ch))
-					return std::make_pair(std::optional<Token>(), std::make_optional<CompilationError>(pos, ErrorCode::ErrInvalidInteger));
 				else if (cc0::isdigit(ch)) {
 					ss << ch;
 					current_state = DFAState::ZERO_DIGIT_STATE;
@@ -190,6 +188,8 @@ namespace cc0 {
 					ss << ch;
 					current_state = DFAState::E_STATE;
 				}
+				else if (cc0::isalpha(ch))
+					return std::make_pair(std::optional<Token>(), std::make_optional<CompilationError>(pos, ErrorCode::ErrInvalidInteger));
 				else {
 					unreadLast();
 					return std::make_pair(std::make_optional<Token>(TokenType::INTEGER, std::stoi(ss.str()), pos, currentPos()), std::optional<CompilationError>());
