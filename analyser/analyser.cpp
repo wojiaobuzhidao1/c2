@@ -1732,19 +1732,29 @@ namespace cc0 {
 				catch (const std::bad_any_cast&) {
 					return std::make_optional<CompilationError>(_current_pos, ErrorCode::ErrDouble);
 				}
-				std::stringstream hexh;
-				std::stringstream hexl;
 				std::string substr1 = str.substr(0, 8);
 				std::string substr2 = str.substr(8, 8);
 
+				std::stringstream hexh;
+				std::stringstream hexl;
+
+				hexh << "0x";
+				hexl << "0x";
+				hexh << substr1;
+				hexl << substr2;
+				std::string strh, strl;
+				hexh >> strh;
+				hexl >> strl;
 				std::cout << "SubString" << substr1 << substr2 << std::endl;
+
+				std::cout << "strhl" << strh << strl << std::endl;
 
 				// 设置此处类型为 double
 				type = SymType::DOUBLE_TYPE;
 				// 将数字压栈
 
-				_instructions[funcIndex].emplace_back(Operation::SNEW, 1);
-				_instructions[funcIndex].emplace_back(Operation::IPUSH, b);
+				_instructions[funcIndex].emplace_back(Operation::IPUSH, strtoll(strh.c_str(), NULL, 16));
+				_instructions[funcIndex].emplace_back(Operation::IPUSH, strtoll(strl.c_str(), NULL, 16));
 
 				//_instructions[funcIndex].emplace_back(Operation::IPUSH, 0);
 				//_instructions[funcIndex].emplace_back(Operation::IPUSH, b);
