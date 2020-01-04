@@ -183,6 +183,7 @@ namespace cc0 {
 			if (funcIndex != -1) {
 				SymType secType;
 				// TODO
+				std::cout << secType << std::endl;
 				if (secType == DOUBLE_TYPE) {
 					_instructions[funcIndex].emplace_back(Operation::SNEW, 1);
 				}
@@ -1129,8 +1130,6 @@ namespace cc0 {
 			offset = getVarIndex(funcIndex, ident.value().GetValueString());
 			level_diff = 0;
 		}
-
-		_constant_symbols.print();
 		// 加载变量的地址
 		_instructions[funcIndex].emplace_back(Operation::LOADA, level_diff, offset);
 
@@ -1197,8 +1196,6 @@ namespace cc0 {
 			offset = getVarIndex(funcIndex, ident.value().GetValueString());
 			level_diff = 0;
 		}
-
-		_constant_symbols.print();
 		// 生成指令
 		// 加载变量的地址
 		_instructions[funcIndex].emplace_back(Operation::LOADA, level_diff, offset);
@@ -1786,8 +1783,6 @@ namespace cc0 {
 					offset = getVarIndex(funcIndex, next.value().GetValueString());
 					level_diff = 0;
 				}
-
-				_constant_symbols.print();
 				// 加载变量的地址
 				_instructions[funcIndex].emplace_back(Operation::LOADA, level_diff, offset);
 				// 从栈中弹出地址，从地址处加载数据压栈
