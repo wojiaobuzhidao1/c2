@@ -1723,19 +1723,21 @@ namespace cc0 {
             }
 			case DOUBLE_TOKEN: {
 				std::string str;
-				double b;
+				//double b;
 				try {
 					str = std::any_cast<std::string>(next.value().GetValue());
-					b = toDouble(str);
+					//b = toDouble(str);
 					std::cout << str << std::endl;
 				}
 				catch (const std::bad_any_cast&) {
 					return std::make_optional<CompilationError>(_current_pos, ErrorCode::ErrDouble);
 				}
-				// TODO
-				//std::string substr1 = str.substr(0, 8);
-				//std::string substr2 = str.substr(8, 8);
-				//std::cout << "SubString" << substr1 << substr2 << std::endl;
+				std::stringstream hexh;
+				std::stringstream hexl;
+				std::string substr1 = str.substr(0, 8);
+				std::string substr2 = str.substr(8, 8);
+
+				std::cout << "SubString" << substr1 << substr2 << std::endl;
 
 				// 设置此处类型为 double
 				type = SymType::DOUBLE_TYPE;
