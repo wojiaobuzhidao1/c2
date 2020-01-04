@@ -697,6 +697,9 @@ namespace cc0 {
 				if (ch == '+' || ch == '-') {
 					ss << ch;
 					current_char = nextChar();
+					if (!current_char.has_value()) { 
+						return std::make_pair(std::optional<Token>(), std::make_optional<CompilationError>(pos, ErrorCode::ErrInvalidInput));
+					}
 					ch = current_char.value();
 				}
 				if (cc0::isdigit(ch)) {

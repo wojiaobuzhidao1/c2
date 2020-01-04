@@ -97,7 +97,7 @@ namespace cc0 {
 					return std::make_optional<CompilationError>(_current_pos, ErrorCode::ErrNeedIdentifier);
 				// 全局下 main 必须是函数，强制跳转到函数处理
 				if (funcIndex == -1 && pre_next.value().GetValueString() == "main") {
-					unreadToken();  // 回溯 int main
+					unreadToken();  // 回溯 type main
 					unreadToken();
 					return {};
 				}
@@ -108,7 +108,7 @@ namespace cc0 {
 				if (!pre_next2.has_value())
 					return std::make_optional<CompilationError>(_current_pos, ErrorCode::ErrInvalidVariableDeclaration);
 				if (pre_next2.value().GetType() == TokenType::LEFT_BRACKET) {
-					// 这里还需要回退 int，彻底回溯完
+					// 这里还需要回退 type，彻底回溯完
 					unreadToken();
 					return {};
 				}
@@ -181,9 +181,17 @@ namespace cc0 {
 			// 没有初始化，局部变量在栈上先为它分配内存
 			// 全局变量未初始化直接默认为 0
 			if (funcIndex != -1) {
+				SymType secType;
+				if (secType == DOUBLE_TYPE) {
+					_instructions[funcIndex].emplace_back(Operation::SNEW, 1);
+				}
 				_instructions[funcIndex].emplace_back(Operation::SNEW, 1);
 			}
 			else {
+				SymType secType;
+				if (secType == DOUBLE_TYPE) {
+					_instructions[funcIndex].emplace_back(Operation::IPUSH, 0);
+				}
 				_instructions[funcIndex].emplace_back(Operation::IPUSH, 0);
 				initVar(funcIndex, ident.value().GetValueString());
 			}
@@ -285,7 +293,7 @@ namespace cc0 {
 			unreadToken();
 			if (!next.has_value())
 				return std::make_optional<CompilationError>(_current_pos, ErrorCode::ErrInvalidFunctionDefinition);
-			if (next.value().GetType() == TokenType::CONST || next.value().GetType() == TokenType::INT) {
+			if (next.value().GetType() == TokenType::CONST || next.value().GetType() == TokenType::INT || next.value().GetType() == TokenType::DOUBLE) {
 				// <parameter-declaration-list>
 				auto err = analyseParameterDeclarationList(funcIndex, param_num);
 				if (err.has_value())
@@ -396,9 +404,6 @@ namespace cc0 {
 			return std::make_optional<CompilationError>(_current_pos, ErrCallUndefined);
 		// 设置类型为函数的返回值类型
 		type = getFuncType(ident.value().GetValueString());
-		//        // 判断函数返回值，如果是在表达式中参与运算的话返回值必须为int
-		//        if(type == SymType::CONST_INT && getFuncType(ident.value().GetValueString()) != INT_TYPE)
-		//            return std::make_optional<CompilationError>(_current_pos, ErrorCode::ErrInvalidFunctionCall);
 
 				// '('
 		auto next = nextToken();
@@ -1016,7 +1021,7 @@ namespace cc0 {
 	// <printable> ::= <expression> | <string-literal> | <char-literal>
 	std::optional<CompilationError> Analyser::analysePrintable(int32_t funcIndex) {
 		// <printable> ::= <expression>
-		// 这里不能是 void，也就是说可以是 int、const int、double（如果加了）
+		// 这里不能是 void，也就是说可以是 int、const、double
 		auto next = nextToken();
 		if (!next.has_value())
 			return std::make_optional<CompilationError>(_current_pos, ErrorCode::ErrInvalidPrintStatement);
