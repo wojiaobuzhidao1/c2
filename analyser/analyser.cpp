@@ -1760,7 +1760,7 @@ namespace cc0 {
 			std::cout << "strhl" << strh << strl << std::endl;*/
 			//str = "0100000010010011001110000000000000000000000000000000000000000000";
 			std::string substr1 = str.substr(0, 32);
-			std::string substr2 = str.substr(32, 32);
+			std::string substr2 = str.substr(32, 64);
 			//std::cout << "SubString" << substr1 << substr2 << std::endl;
 
 			/*std::string hex = "", out1 = "", tmp = "";
