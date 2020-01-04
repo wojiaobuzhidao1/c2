@@ -1723,7 +1723,7 @@ namespace cc0 {
             }
 			case DOUBLE_TOKEN: {
 				std::string str;
-				//double b;
+				double b;
 				try {
 					str = std::any_cast<std::string>(next.value().GetValue());
 					//b = toDouble(str);
