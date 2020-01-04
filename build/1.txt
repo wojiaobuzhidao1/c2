@@ -1,0 +1,279 @@
+const int const1 = 1, ocnst2 = 2, const3=3;
+const char consta = 'a';
+const int const4=4;
+const char constb='b',constC = 'C';
+
+int var10; 
+int var5 = 5, var6;
+int var1;
+char varCh1,varCh2='2';
+int i;
+char C;
+
+double dou1 = 0.00,dou2 = -1.2345,dou3 = 3.44444;
+
+const int test1=0+1,test2=3*4,test3 = 1-5,test4=2/1;
+
+const int constint1 = 12345679, constint2 = 0;
+const int constint3 = -0, constint4 = -12345679;
+const char constchar1 = '9', constchar2 = '', constchar3 = '+', constchar4 = '*';
+
+int , globalint1;
+char globalchar1;
+int globalint2;
+char globalchar2;
+
+void hanoi(int n, char from, char tmp, char to)
+{
+    if (n > 0) {
+        hanoi(n - 1, from, to, tmp);
+        print("take ");
+        print(n);
+        print(" from ");
+        print(from);
+        print(" to ");
+        print(to,"\n");
+        hanoi(n - 1, tmp, from, to);
+    }
+    return;
+}
+
+int Fibonacci(int n) {
+    if (n == 0)
+        return (0);
+    if (n == 1)
+        return (1);
+    return (Fibonacci(n - 1) + Fibonacci(n - 2));
+}
+
+int fac(int n) {
+    if (n == 1)
+        return (1);
+       return (n * fac(n - 1));
+}
+
+void assignGlobal(int a, char b, int c, char d) {
+    globalint1 = a;
+    globalchar1 = b;
+    globalint2 = c;
+    globalchar2 = d;
+    return;
+}
+
+void printGlobalConst() {
+    print(constint1,"\n");
+    print(constint2,"\n");
+    print(constint3,"\n");
+    print(constint4,"\n");
+    print(constchar1,"\n");
+    print(constchar2,"\n");
+    print(constchar3,"\n");
+    print(constchar4,"\n");
+    return;
+}
+
+void printGlobalVar() {
+    print(globalint1,"\n");
+    print(globalint2,"\n");
+    print(globalchar1,"\n");
+    print(globalchar2,"\n");
+    return;
+}
+
+void testGlobal() {
+    assignGlobal(constint1, constchar1, constint4, constchar4);
+    printGlobalConst();
+    printGlobalVar();
+    return;
+}
+
+int testReturnInt(int a) {
+    return (a + 1);
+}
+
+char testReturnChar(int a) {
+    if (a == 1) {
+        return ('a');
+    } else if (a == 2) {
+        return ('b');
+    } else if (a == 3) {
+        return ('c');
+    }
+    return ('');
+}
+
+void testReturn() {
+    print(testReturnInt(Fibonacci(fac(3) + fac(2))),"\n");
+    print(testReturnChar(1),"\n");
+    print(testReturnChar(2),"\n");
+    print(testReturnChar(3),"\n");
+    print(testReturnChar(4),"\n");
+    return;
+}
+
+void testIO() {
+    scan(globalint1);
+    scan(globalchar1);
+    print("!@\n#$^&*()Qqaa123[];',./\n");
+    print(globalint1,"\n");
+    print(globalchar1,"\n");
+    scan(globalint1);
+	scan(globalchar1);
+    print("!@\n#$^&*()Qqaa123[];',./", globalint1,"\n");
+    print(globalchar1,"\n");
+    scan(globalchar1);
+	scan(globalint1);
+    print("!@\n#$^&*()Qqaa123[];',./", globalchar1,"\n");
+    print(globalint1,"\n");
+    return;
+}
+
+
+void testSwitch() {
+    const int sum = 3;
+    int int1, i;
+    char char1;
+    i = 0;
+    int1 = 0;
+    while (i < sum) {
+        if (int1 == 0) {
+            char1 = 'a';
+            print(char1,"\n");
+        }
+        else if (int1 ==  1) {
+            char1 = 'b';
+            print(char1,"\n");
+        }
+        else {
+            char1 = constchar2;
+            print(char1,"\n");
+        }
+        if((char1)== ('a')) {
+            int1 = i + 1;
+            print(int1,"\n");
+        }
+        else if ((char1)== ('b')) {
+            int1 = sum;
+            print(int1,"\n");
+        }
+        i = i + 1;
+    }
+    return;
+}
+
+int funcretint1(int i1, int i2, char c1, char c2) {
+    int itemp;
+    char ctemp;
+    print("INPUT of funcretint1:\n");
+    print(i1,"\n");
+    print(i2,"\n");
+    print(c1,"\n");
+    print(c2,"\n");
+    itemp = i1;
+    i1 = i2;
+    i2 = itemp;
+    ctemp = c1;
+    c1 = c2;
+    c2 = ctemp;
+    print("OPERATE of funcretint1:\n");
+    print(i1,"\n");
+    print(i2,"\n");
+    print(c1,"\n");
+    print(c2,"\n");
+    return (i1);
+
+}
+
+void testPara() {
+    int i, j;
+    char c, d;
+    i = constint1;
+    j = constint4;
+    c = 'A';
+    d = 'Z';
+    print(funcretint1(i, j, c, d), "\n");
+    return;
+}
+
+void testRecursion() {
+    hanoi((Fibonacci(fac(2) * fac(3)) - fac(Fibonacci(3) + Fibonacci(4))) / fac(Fibonacci(2) + Fibonacci(3)), 'a', 'b', 'c');
+    return;
+}
+
+void testLoop(){
+	int i = 0;
+	for (; i < 10; i = i + 1) {
+		if (i == 8) {
+			break;
+		}
+		if (i == 2) {
+			continue;
+		}
+		print(i,"\n");
+	}
+	i = 0;
+	while (i < 10) {
+		if (i == 8) {
+			break;
+		}
+		if (i == 2) {
+			i = i + 1;
+			continue;
+		}
+		print(i,"\n");
+		i = i + 1;
+	}
+	i = 0;
+	do {
+		if (i == 8) {
+			break;
+		}
+		if (i == 2) {
+			i = i + 1;
+			continue;
+		}
+		print(i,"\n");
+		i = i + 1;
+	}while (i < 10);
+
+	switch(i - 1){
+		case 1:print("wrong\n");
+		break;
+		case 7:print("ok\n");
+		break;
+		default:print("wrong\n");
+		break;
+	}
+	return;
+}
+
+void main()
+{
+    print("************************************************");
+    print("Start testing recursion:\n");
+    testRecursion();
+    print("************************************************");
+    print("Start testing global:\n");
+    testGlobal();
+    print("************************************************");
+    print("Start testing return:\n");
+    testReturn();
+    print("************************************************");
+    print("Start testing I/O:\n");
+    testIO();
+    print("************************************************");
+    print("Start testing if & while:\n");
+    testIfWhile();
+    print("************************************************");
+    print("Start testing switch:\n");
+    testSwitch();
+    print("************************************************");
+    print("Start testing parameter:\n");
+    testPara();
+    print("************************************************");
+	print("Start testing loop:\n");
+	testLoop();
+	print("************************************************");
+    return;
+}
+

@@ -10,11 +10,12 @@ namespace cc0 {
 
 	enum TokenType {
 		NULL_TOKEN,
-		INTEGER,  // 无符号整数
-		IDENTIFIER,        // 标识符
+		INTEGER,
+		IDENTIFIER,
 		CHAR_TOKEN,
 		STRING,
-        // 保留字
+		DOUBLE_TOKEN,
+
 		CONST,
 		VOID,
 		INT,
@@ -34,24 +35,24 @@ namespace cc0 {
 		CONTINUE,
 		PRINT,
 		SCAN,
-		// 符号   ( ) { } < = > , ; ! + - * /
+
 		PLUS_SIGN,   // +
 		MINUS_SIGN,  // -
 		MULTIPLICATION_SIGN,  // *
 		DIVISION_SIGN,   // /
 		ASSIGN_SIGN,   // =
-		SEMICOLON,    // ;
+		LESS_SIGN,  // <
+		LESS_EQUAL_SIGN,  // <=
+		GREATER_SIGN,  // >
+		GREATER_EQUAL_SIGN,  // >=
+		NONEQUAL_SIGN,  // !=
+		EQUAL_SIGN,    // ==
 		LEFT_BRACKET,  // (
 		RIGHT_BRACKET,  // )
-        LEFT_BRACE,  // {
-        RIGHT_BRACE,  // }
-        LESS_SIGN,  // <
-        LESS_EQUAL_SIGN,  // <=
-        GREATER_SIGN,  // >
-        GREATER_EQUAL_SIGN,  // >=
-        NONEQUAL_SIGN,  // !=
-        EQUAL_SIGN,    // ==
-        COMMA_SIGN     // ,
+		LEFT_BRACE,  // {
+		RIGHT_BRACE,  // }
+		COMMA_SIGN,     // ,
+		SEMICOLON,    // ;
 	};
 
 	class Token final {
@@ -71,11 +72,11 @@ namespace cc0 {
 		Token(const Token& t) { _type = t._type;  _value = t._value; _start_pos = t._start_pos; _end_pos = t._end_pos; }
 		Token(Token&& t) : Token(TokenType::NULL_TOKEN, nullptr, 0, 0, 0, 0) { swap(*this, t); }
 		Token& operator=(Token t) { swap(*this, t); return *this; }
-		bool operator==(const Token& rhs) const { 
-			return _type == rhs._type 
-				&& GetValueString() == rhs.GetValueString() 
-				&& _start_pos == rhs._start_pos 
-				&& _end_pos == rhs._end_pos; 
+		bool operator==(const Token& rhs) const {
+			return _type == rhs._type
+				&& GetValueString() == rhs.GetValueString()
+				&& _start_pos == rhs._start_pos
+				&& _end_pos == rhs._end_pos;
 		}
 
 		TokenType GetType() const { return _type; };
