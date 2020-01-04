@@ -950,18 +950,15 @@ namespace cc0 {
 	//str should have at least 64 byte.
 	std::string Tokenizer::Double2String(double dNum) {
 		std::uint64_t nData = ((std::uint64_t *)&dNum)[0];
-		char pStr[65];
+		char pStr[64];
 		for (int i = 0; i < 64; i++) {
 			pStr[63 - i] = (char)(nData & 1) + '0';
 			nData >>= 1;
 		}
-		pStr[64] = '\0';
-		std::stringstream dss;
-		for (int i = 0; i < 65; i++) {
-			dss << pStr[i];
+		std::string out;
+		for (int i = 0; i < 64; i++) {
+			out = out + pStr[i];
 		}
-		std::string str;
-		dss >> str;
-		return str;
+		return out;
 	}
 }
