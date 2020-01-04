@@ -8,6 +8,8 @@
 #include <math.h>
 #include <sstream>
 #include <iomanip>
+#include <stdint.h>
+#include <algorithm>
 
 namespace cc0 {
 	std::pair<std::optional<Token>, std::optional<CompilationError>> Tokenizer::NextToken() {
@@ -940,7 +942,26 @@ namespace cc0 {
 			num = num * pow(10, index);
 		}
 		str_without_e = toStr(num, calSize(str_without_e, index));
-		return "4008FCB923A29C78";//3.1234
+		return Double2String(num);
+		//return "4008FCB923A29C78";//3.1234
 		//return str_without_e;
+	}
+
+	//str should have at least 64 byte.
+	std::string Tokenizer::Double2String(double dNum) {
+		std::uint64_t nData = ((std::uint64_t *)&dNum)[0];
+		char pStr[65];
+		for (int i = 0; i < 64; i++) {
+			pStr[63 - i] = (char)(nData & 1) + '0';
+			nData >>= 1;
+		}
+		pStr[64] = '\0';
+		std::stringstream dss;
+		for (int i = 0; i < 65; i++) {
+			dss << pStr[i];
+		}
+		std::string str;
+		dss >> str;
+		return str;
 	}
 }

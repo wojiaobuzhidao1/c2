@@ -1723,7 +1723,6 @@ namespace cc0 {
             }
 			case DOUBLE_TOKEN: {
 				std::string str;
-				double b;
 				try {
 					str = std::any_cast<std::string>(next.value().GetValue());
 					//b = toDouble(str);
@@ -1732,7 +1731,7 @@ namespace cc0 {
 				catch (const std::bad_any_cast&) {
 					return std::make_optional<CompilationError>(_current_pos, ErrorCode::ErrDouble);
 				}
-				std::string substr1 = str.substr(0, 8);
+				/**std::string substr1 = str.substr(0, 8);
 				std::string substr2 = str.substr(8, 8);
 
 				std::stringstream hexh;
@@ -1747,17 +1746,19 @@ namespace cc0 {
 				hexl >> strl;
 				std::cout << "SubString" << substr1 << substr2 << std::endl;
 
-				std::cout << "strhl" << strh << strl << std::endl;
+				std::cout << "strhl" << strh << strl << std::endl;*/
+
+				std::string substr1 = str.substr(0, 32);
+				std::string substr2 = str.substr(32, 32);
+				std::cout << "SubString" << substr1 << substr2 << std::endl;
 
 				// 设置此处类型为 double
 				type = SymType::DOUBLE_TYPE;
 				// 将数字压栈
 
-				_instructions[funcIndex].emplace_back(Operation::IPUSH, strtoll(strh.c_str(), NULL, 16));
-				_instructions[funcIndex].emplace_back(Operation::IPUSH, strtoll(strl.c_str(), NULL, 16));
+				_instructions[funcIndex].emplace_back(Operation::IPUSH, strtoll(substr1.c_str(), NULL, 2));
+				_instructions[funcIndex].emplace_back(Operation::IPUSH, strtoll(substr2.c_str(), NULL, 2));
 
-				//_instructions[funcIndex].emplace_back(Operation::IPUSH, 0);
-				//_instructions[funcIndex].emplace_back(Operation::IPUSH, b);
 				break;
 			}
             case CHAR_TOKEN: {

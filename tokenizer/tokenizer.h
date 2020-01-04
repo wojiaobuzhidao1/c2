@@ -89,6 +89,7 @@ namespace cc0 {
 		double toDouble(std::string str);
 		int calSize(std::string str, int index);
 		std::string IEEE754(std::string input);
+		std::string Double2String(double dNum);
 		
 	private:
 		std::istream& _rdr;
