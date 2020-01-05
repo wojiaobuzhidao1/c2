@@ -1095,7 +1095,7 @@ namespace cc0 {
 			type = getVarType(-1, ident.value().GetValueString());
 
 			std::cout << "if the wrong is there" << std::endl;
-			if (isConst(funcIndex, ident.value().GetValueString()))
+			if (isConst(/*funcIndex*/-1, ident.value().GetValueString()))
 				return std::make_optional<CompilationError>(_current_pos, ErrorCode::ErrAssignToConstant);
 			std::cout << "if the wrong is there" << std::endl;
 		}
