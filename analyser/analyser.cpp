@@ -1084,11 +1084,16 @@ namespace cc0 {
 			return std::make_optional<CompilationError>(_current_pos, ErrorCode::ErrNeedIdentifier);
 
 		SymType type;
+		// 是全局变量还是局部变量
+		bool isGlobal = false;
 		// 查符号表: 已声明、非const、局部符号表必然没有func，全局变量需要判断一下是不是函数
 		if (!isDeclared(funcIndex, ident.value().GetValueString())) { // 局部符号表
 			if (!isDeclared(-1, ident.value().GetValueString())) // 全局符号表
 				return std::make_optional<CompilationError>(_current_pos, ErrorCode::ErrNotDeclared);
+			// 说明是全局变量
+			isGlobal = true;
 			type = getVarType(-1, ident.value().GetValueString());
+
 			std::cout << "if the wrong is there" << std::endl;
 			if (isConst(funcIndex, ident.value().GetValueString()))
 				return std::make_optional<CompilationError>(_current_pos, ErrorCode::ErrAssignToConstant);
