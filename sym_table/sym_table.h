@@ -20,8 +20,6 @@ namespace cc0 {
 		int32_t getFuncSize();
 		// 获取函数参数的数据类型, index 为第几个参数
 		SymType getFuncParamType(int index);
-		SymType getType(std::string name);
-		SymType getFuncType(std::string name);
 
 		// 添加变量/常量
 		void addVar(std::string name, bool isConst, SymType type);
@@ -29,6 +27,18 @@ namespace cc0 {
 		int getVarIndex(std::string name);
 		// 添加定义的函数
 		int32_t addFunc(std::string name, SymType type);
+		// 标识符是否已存在
+		bool isDeclared(std::string name);
+		// 标识符是否为函数
+		bool isFunction(std::string name);
+		// 是否有 main 函数
+		bool isMainExisted();
+		// 字面量是否已存在
+		bool isConstantExisted(SymType type, std::string name);
+		// 获取符号类型
+		bool isConst(std::string name);
+		SymType getType(std::string name);
+		SymType getFuncType(std::string name);
 		// 获取函数参数数量
 		int32_t getFuncParamNum(std::string name);
 		// 修改参数数量
@@ -43,14 +53,6 @@ namespace cc0 {
 		void initVar(std::string name);
 		// 是否初始化
 		bool isInit(std::string name);
-		// 标识符是否已存在
-		bool isDeclared(std::string name);
-		// 标识符是否为函数
-		bool isFunction(std::string name);
-		// 字面量是否已存在
-		bool isConstantExisted(SymType type, std::string name);
-		// 获取符号类型
-		bool isConst(std::string name);
 
 		void test();
 
