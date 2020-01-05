@@ -1,20 +1,10 @@
-const double const1 = 1.00, const2 = -1.23;
-const double constDou3 = .123e-3;
-double constDou4 = .123e23;
-double constDou5 = 22., constDou6 = .789, constDou7 = 5E-2;
+int g0 = 42;
+double g1 = 1.0;
 
-int main(){
-	double dou1;
-	dou1 = const1 * const2;
-	print(dou1);
-	dou1 = const1 * (const2 + const2);
-	print(dou1);
-	dou1 = (const1 - const2) * (const2 + const2);
-	print(dou1);
-	dou1 = (const1 - (const1 + const2)) * (const2 + const2);
-	print(dou1);
-	dou1 = (const1 * const2 - (const1 + const2)) * (const2 + const2);
-	print(dou1);
-	dou1 = (const1 * const2 - (const1 + const2)) * (const2 * const1 + const2);
-	print(dou1);
+int fun(int num) {
+    return -num;
+}
+
+int main() {
+    return fun(-123456);
 }
