@@ -13,10 +13,8 @@ namespace cc0 {
 		std::cout << "Please check your program carefully.\n";
 		std::cout << "If you believe it's not your fault, please report this to TAs.\n";
 		std::abort();
-		// or *((int*)114514) = 19260817;
 	}
 
-	// To keep it simple, we don't create an error system.
 	enum ErrorCode { 
 		ErrNoError, // Should be only used internally.
 		ErrStreamError, 
@@ -25,7 +23,7 @@ namespace cc0 {
 		ErrInvalidInteger,
 		ErrHexademicalChange, // 十六进制转换异常
 		ErrInvalidIdentifier,
-		ErrIntegerOverflow, // int32_t overflow.
+		ErrIntegerOverflow, // int overflow.
 		ErrCharInvalid,
 		ErrStringInvalid,
 		ErrNeedMain,
@@ -41,6 +39,7 @@ namespace cc0 {
 		ErrInvalidStatementSeq,
 		ErrInvalidConditionStatement,
         ErrInvalidLoopStatement,
+		ErrInvalidDoStatement,
         ErrInvalidReturnStatement,
         ErrInvalidPrintStatement,
         ErrInvalidScanStatement,
@@ -51,10 +50,6 @@ namespace cc0 {
         ErrInvalidPrimaryExpression,
         ErrInvalidType,
 
-        ErrTest,
-
-		ErrNoBegin,
-		ErrNoEnd,
 		ErrNeedIdentifier,
 		ErrConstantNeedValue,
 		ErrNoSemicolon,
@@ -66,7 +61,8 @@ namespace cc0 {
 		ErrNotInitialized,
 		ErrInvalidAssignment,
 		ErrInvalidPrint,
-		ErrIncompleteCommit
+		ErrIncompleteCommit,
+		ErrDouble,
 	};
 
 	class CompilationError final{

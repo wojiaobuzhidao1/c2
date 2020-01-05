@@ -3,7 +3,7 @@
 #include "error/error.h"
 #include "instruction/instruction.h"
 #include "tokenizer/token.h"
-#include "symTable.h"
+#include "sym_table/sym_table.h"
 
 #include <vector>
 #include <optional>
@@ -23,7 +23,7 @@ namespace cc0 {
 		using int16_t = std::int16_t;
 	public:
 		Analyser(std::vector<Token> v)
-			: _tokens(std::move(v)), _offset(0), _instructions({}), _current_pos(0, 0) {}
+			: _tokens(std::move(v)), _offset(0), _current_pos(0, 0), _instructions({}) {}
 		Analyser(Analyser&&) = delete;
 		Analyser(const Analyser&) = delete;
 		Analyser& operator=(Analyser) = delete;
@@ -70,6 +70,8 @@ namespace cc0 {
         std::optional<CompilationError> analyseConditionStatement(int32_t funcIndex, bool& isReturn);
         // <loop-statement>
         std::optional<CompilationError> analyseLoopStatement(int32_t funcIndex, bool& isReturn);
+
+		std::optional<CompilationError> analyseDoStatement(int32_t funcIndex, bool& isReturn);
         // <jump-statement>
         std::optional<CompilationError> analyseJumpStatement(int32_t funcIndex);
         // <print-statement>
@@ -142,6 +144,8 @@ namespace cc0 {
         SymType getVarType(int32_t funcIndex, std::string name);
         // 设置变量为已初始化
         void initVar(int32_t funcIndex, std::string name);
+
+		double toDouble(std::string str);
 
 	private:
 		std::vector<Token> _tokens;

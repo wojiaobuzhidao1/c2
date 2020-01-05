@@ -1,6 +1,6 @@
 #include <iostream>
-#include "analyser/symTable.h"
-#include "analyser/symbol.h"
+#include "sym_table.h"
+#include "symbol.h"
 
 namespace cc0 {
 
@@ -27,8 +27,13 @@ namespace cc0 {
     }
 
     void SymTable::addVar(std::string name, bool isConst, SymType type) {
-        _symbols.emplace_back(new Symbol(name, false, isConst, type, _next_index, 0));
+		_symbols.emplace_back(new Symbol(name, false, isConst, type, _next_index, 0));
         _next_index++;
+		if (type == DOUBLE_TYPE) {
+
+			_symbols.emplace_back(new Symbol(name, false, isConst, type, _next_index, 0));
+			_next_index++;
+		}
     }
 
     int SymTable::getVarIndex(std::string name) {
