@@ -247,7 +247,7 @@ namespace cc0 {
 				break;
 			}
 
-							 // 当前状态是十六进制整数（已经是 0X | 0x 开头）
+								   // 当前状态是十六进制整数（已经是 0X | 0x 开头）
 			case HEXADECIMAL_INTEGER_STATE: {
 				if (!current_char.has_value()) { // 读到文件尾
 					std::string str = ss.str();
@@ -331,7 +331,7 @@ namespace cc0 {
 				}
 				else {
 					unreadLast();
-						try {
+					try {
 						return std::make_pair(std::make_optional<Token>(TokenType::INTEGER, std::stoi(ss.str()), pos, currentPos()), std::optional<CompilationError>());
 					}
 					catch (const std::out_of_range&) {
@@ -671,7 +671,7 @@ namespace cc0 {
 				}
 				break;
 			}
-			 
+
 							  // <floating-literal> ::=  [<digit-seq>]'.'<digit-seq>[<exponent>]
 			case POINT_STATE: {
 				if (!current_char.has_value()) {
@@ -687,7 +687,7 @@ namespace cc0 {
 				}
 				break;
 			}
-			
+
 			case E_STATE: {
 				if (!current_char.has_value()) {
 					std::cout << IEEE754(ss.str()) << std::endl;
@@ -697,7 +697,7 @@ namespace cc0 {
 				if (ch == '+' || ch == '-') {
 					ss << ch;
 					current_char = nextChar();
-					if (!current_char.has_value()) { 
+					if (!current_char.has_value()) {
 						return std::make_pair(std::optional<Token>(), std::make_optional<CompilationError>(pos, ErrorCode::ErrInvalidInput));
 					}
 					ch = current_char.value();
@@ -729,7 +729,7 @@ namespace cc0 {
 				break;
 			}
 
-							   // 预料之外的状态，如果执行到了这里，说明程序异常
+						  // 预料之外的状态，如果执行到了这里，说明程序异常
 			default:
 				DieAndPrint("unhandled state.");
 				break;

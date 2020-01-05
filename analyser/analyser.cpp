@@ -403,7 +403,7 @@ namespace cc0 {
 		// 设置类型为函数的返回值类型
 		type = getFuncType(ident.value().GetValueString());
 
-				// '('
+		// '('
 		auto next = nextToken();
 		if (!next.has_value() || next.value().GetType() != TokenType::LEFT_BRACKET)
 			return std::make_optional<CompilationError>(_current_pos, ErrorCode::ErrInvalidFunctionCall);
@@ -1094,10 +1094,10 @@ namespace cc0 {
 			isGlobal = true;
 			type = getVarType(-1, ident.value().GetValueString());
 
-			std::cout << "if the wrong is there" << std::endl;
+			//std::cout << "if the wrong is there" << std::endl;
 			if (isConst(/*funcIndex*/-1, ident.value().GetValueString()))
 				return std::make_optional<CompilationError>(_current_pos, ErrorCode::ErrAssignToConstant);
-			std::cout << "if the wrong is there" << std::endl;
+			//std::cout << "if the wrong is there" << std::endl;
 		}
 		else {
 			// 说明是局部变量

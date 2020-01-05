@@ -38,20 +38,20 @@ namespace cc0 {
 			RIGHT_BRACE_STATE,  // }
 			LESS_SIGN_STATE,  // <
 			GREATER_SIGN_STATE,  //  >
-            COMMA_SIGN_STATE,  // ,
+			COMMA_SIGN_STATE,  // ,
 			SEMICOLON_STATE,    // ;
-			
+
 			ZERO_DIGIT_STATE, // 0+digit
 			DIGIT_STATE, // .digit
 			POINT_STATE, // .digit
 			E_STATE, // e...
-            EXCLAMATION_SIGN_STATE,  // !
-            SINGLE_LINE_COMMENT_STATE, // //
-            MULTI_LINE_COMMENT_STATE,  // /* */
+			EXCLAMATION_SIGN_STATE,  // !
+			SINGLE_LINE_COMMENT_STATE, // //
+			MULTI_LINE_COMMENT_STATE,  // /* */
 		};
 	public:
 		Tokenizer(std::istream& ifs)
-			: _rdr(ifs), _initialized(false), _ptr(0, 0),_lines_buffer() {}
+			: _rdr(ifs), _initialized(false), _ptr(0, 0), _lines_buffer() {}
 		Tokenizer(Tokenizer&& tkz) = delete;
 		Tokenizer(const Tokenizer&) = delete;
 		Tokenizer& operator=(const Tokenizer&) = delete;
@@ -90,7 +90,7 @@ namespace cc0 {
 		int calSize(std::string str, int index);
 		std::string IEEE754(std::string input);
 		std::string Double2String(double dNum);
-		
+
 	private:
 		std::istream& _rdr;
 		// 如果没有初始化，那么就 readAll
@@ -99,5 +99,5 @@ namespace cc0 {
 		std::pair<uint64_t, uint64_t> _ptr;
 		// 以行为基础的缓冲区
 		std::vector<std::string> _lines_buffer;
-    };
+	};
 }

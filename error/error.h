@@ -8,16 +8,16 @@
 namespace cc0 {
 
 	inline void DieAndPrint(std::string condition) {
-		std::cout << "Exception: " <<  condition << "\n";
+		std::cout << "Exception: " << condition << "\n";
 		std::cout << "The program should not reach here.\n";
 		std::cout << "Please check your program carefully.\n";
 		std::cout << "If you believe it's not your fault, please report this to TAs.\n";
 		std::abort();
 	}
 
-	enum ErrorCode { 
+	enum ErrorCode {
 		ErrNoError, // Should be only used internally.
-		ErrStreamError, 
+		ErrStreamError,
 		ErrEOF,
 		ErrInvalidInput,
 		ErrInvalidInteger,
@@ -38,17 +38,17 @@ namespace cc0 {
 		ErrInvalidCompoundStatement,  // 复合语句结构不合法
 		ErrInvalidStatementSeq,
 		ErrInvalidConditionStatement,
-        ErrInvalidLoopStatement,
+		ErrInvalidLoopStatement,
 		ErrInvalidDoStatement,
-        ErrInvalidReturnStatement,
-        ErrInvalidPrintStatement,
-        ErrInvalidScanStatement,
+		ErrInvalidReturnStatement,
+		ErrInvalidPrintStatement,
+		ErrInvalidScanStatement,
 
-        ErrExpressionType,
-        ErrInvalidCastExpression,
-        ErrInvalidUnaryExpression,
-        ErrInvalidPrimaryExpression,
-        ErrInvalidType,
+		ErrExpressionType,
+		ErrInvalidCastExpression,
+		ErrInvalidUnaryExpression,
+		ErrInvalidPrimaryExpression,
+		ErrInvalidType,
 
 		ErrNeedIdentifier,
 		ErrConstantNeedValue,
@@ -65,7 +65,7 @@ namespace cc0 {
 		ErrDouble,
 	};
 
-	class CompilationError final{
+	class CompilationError final {
 	private:
 		using uint64_t = std::uint64_t;
 	public:
