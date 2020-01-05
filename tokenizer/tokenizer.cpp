@@ -174,7 +174,7 @@ namespace cc0 {
 					ss << ch;
 					current_char = nextChar();
 					if (!current_char.has_value()) {
-						std::cout << IEEE754(ss.str()) << std::endl;
+						//std::cout << IEEE754(ss.str()) << std::endl;
 						return std::make_pair(std::make_optional<Token>(TokenType::DOUBLE_TOKEN, IEEE754(ss.str()), pos, currentPos()), std::optional<CompilationError>());
 					}
 					ch = current_char.value();
@@ -188,7 +188,7 @@ namespace cc0 {
 					}
 					else {
 						unreadLast();
-						std::cout << IEEE754(ss.str()) << std::endl;
+						//std::cout << IEEE754(ss.str()) << std::endl;
 						return std::make_pair(std::make_optional<Token>(TokenType::DOUBLE_TOKEN, IEEE754(ss.str()), pos, currentPos()), std::optional<CompilationError>());
 					}
 				}
@@ -218,7 +218,7 @@ namespace cc0 {
 					ss << ch;
 					current_char = nextChar();
 					if (!current_char.has_value()) {
-						std::cout << IEEE754(ss.str()) << std::endl;
+						//std::cout << IEEE754(ss.str()) << std::endl;
 						return std::make_pair(std::make_optional<Token>(TokenType::DOUBLE_TOKEN, IEEE754(ss.str()), pos, currentPos()), std::optional<CompilationError>());
 					}
 					ch = current_char.value();
@@ -232,7 +232,7 @@ namespace cc0 {
 					}
 					else {
 						unreadLast();
-						std::cout << IEEE754(ss.str()) << std::endl;
+						//std::cout << IEEE754(ss.str()) << std::endl;
 						return std::make_pair(std::make_optional<Token>(TokenType::DOUBLE_TOKEN, IEEE754(ss.str()), pos, currentPos()), std::optional<CompilationError>());
 					}
 				}
@@ -307,7 +307,7 @@ namespace cc0 {
 					ss << ch;
 					current_char = nextChar();
 					if (!current_char.has_value()) {
-						std::cout << IEEE754(ss.str()) << std::endl;
+						//std::cout << IEEE754(ss.str()) << std::endl;
 						return std::make_pair(std::make_optional<Token>(TokenType::DOUBLE_TOKEN, IEEE754(ss.str()), pos, currentPos()), std::optional<CompilationError>());
 					}
 					ch = current_char.value();
@@ -321,7 +321,7 @@ namespace cc0 {
 					}
 					else {
 						unreadLast();
-						std::cout << IEEE754(ss.str()) << std::endl;
+						//std::cout << IEEE754(ss.str()) << std::endl;
 						return std::make_pair(std::make_optional<Token>(TokenType::DOUBLE_TOKEN, IEEE754(ss.str()), pos, currentPos()), std::optional<CompilationError>());
 					}
 				}
@@ -653,7 +653,7 @@ namespace cc0 {
 								  //<floating-literal> ::= [<digit-seq>]'.'<digit-seq>[<exponent>]
 			case DIGIT_STATE: {
 				if (!current_char.has_value()) {
-					std::cout << IEEE754(ss.str()) << std::endl;
+					//std::cout << IEEE754(ss.str()) << std::endl;
 					return std::make_pair(std::make_optional<Token>(TokenType::DOUBLE_TOKEN, IEEE754(ss.str()), pos, currentPos()), std::optional<CompilationError>());
 				}
 				auto ch = current_char.value();
@@ -666,7 +666,7 @@ namespace cc0 {
 				}
 				else {
 					unreadLast();
-					std::cout << IEEE754(ss.str()) << std::endl;
+					//std::cout << IEEE754(ss.str()) << std::endl;
 					return std::make_pair(std::make_optional<Token>(TokenType::DOUBLE_TOKEN, IEEE754(ss.str()), pos, currentPos()), std::optional<CompilationError>());
 				}
 				break;
@@ -690,7 +690,7 @@ namespace cc0 {
 
 			case E_STATE: {
 				if (!current_char.has_value()) {
-					std::cout << IEEE754(ss.str()) << std::endl;
+					//std::cout << IEEE754(ss.str()) << std::endl;
 					return std::make_pair(std::make_optional<Token>(TokenType::DOUBLE_TOKEN, IEEE754(ss.str()), pos, currentPos()), std::optional<CompilationError>());
 				}
 				auto ch = current_char.value();
@@ -707,7 +707,7 @@ namespace cc0 {
 					while (true) {
 						current_char = nextChar();
 						if (!current_char.has_value()) {
-							std::cout << IEEE754(ss.str()) << std::endl;
+							//std::cout << IEEE754(ss.str()) << std::endl;
 							return std::make_pair(std::make_optional<Token>(TokenType::DOUBLE_TOKEN, IEEE754(ss.str()), pos, currentPos()), std::optional<CompilationError>());
 						}
 						auto ch = current_char.value();
@@ -716,14 +716,14 @@ namespace cc0 {
 						}
 						else {
 							unreadLast();
-							std::cout << IEEE754(ss.str()) << std::endl;
+							//std::cout << IEEE754(ss.str()) << std::endl;
 							return std::make_pair(std::make_optional<Token>(TokenType::DOUBLE_TOKEN, IEEE754(ss.str()), pos, currentPos()), std::optional<CompilationError>());
 						}
 					}
 				}
 				else {
 					unreadLast();
-					std::cout << IEEE754(ss.str()) << std::endl;
+					//std::cout << IEEE754(ss.str()) << std::endl;
 					return std::make_pair(std::make_optional<Token>(TokenType::DOUBLE_TOKEN, IEEE754(ss.str()), pos, currentPos()), std::optional<CompilationError>());
 				}
 				break;
@@ -944,7 +944,7 @@ namespace cc0 {
 			num = num * pow(10, index);
 		}
 		str_without_e = toStr(num, calSize(str_without_e, index));
-		std::cout << "token:" << str_without_e << std::endl;
+		//std::cout << "token:" << str_without_e << std::endl;
 		return Double2String(num);
 		//return "4008FCB923A29C78";//3.1234
 		//return str_without_e;

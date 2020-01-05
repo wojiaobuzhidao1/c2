@@ -1656,7 +1656,7 @@ namespace cc0 {
 			try {
 				str = std::any_cast<std::string>(next.value().GetValue());
 				//b = toDouble(str);
-				std::cout << str << std::endl;
+				//std::cout << str << std::endl;
 			}
 			catch (const std::bad_any_cast&) {
 				return std::make_optional<CompilationError>(_current_pos, ErrorCode::ErrDouble);
@@ -1680,7 +1680,7 @@ namespace cc0 {
 			//str = "0100000010010011001110000000000000000000000000000000000000000000";
 			std::string substr1 = str.substr(0, 32);
 			std::string substr2 = str.substr(32, 32);
-			std::cout << "SubString" << substr1 << substr2 << std::endl;
+			//std::cout << "SubString" << substr1 << substr2 << std::endl;
 
 			/*std::string hex = "", out1 = "", tmp = "";
 			int pos = 0;
