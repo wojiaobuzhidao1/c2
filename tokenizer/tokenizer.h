@@ -19,19 +19,21 @@ namespace cc0 {
 	private:
 		using uint64_t = std::uint64_t;
 
+		// 状态机的所有状态  ( ) { } < = > , ; ! + - * /
 		enum DFAState {
-			INITIAL_STATE, // init
-			ZERO_STATE, // int
-			IDENTIFIER_STATE, // id
-			DECIMAL_INTEGER_STATE, // 10
-			HEXADECIMAL_INTEGER_STATE, // 16
-			CHAR_STATE,  // char
-			STRING_STATE, // string
+			INITIAL_STATE,
+			INTEGER_STATE,
+			DECIMAL_INTEGER_STATE,
+			HEXADECIMAL_INTEGER_STATE,
+			CHAR_STATE,
+			STRING_STATE,
 			PLUS_SIGN_STATE,  // +
 			MINUS_SIGN_STATE,  // -
-			MULTIPLICATION_SIGN_STATE,  // *
 			DIVISION_SIGN_STATE,  // /
+			MULTIPLICATION_SIGN_STATE,  // *
+ 			IDENTIFIER_STATE,
 			EQUAL_SIGN_STATE,   // =
+			SEMICOLON_STATE,    // ;
 			LEFTBRACKET_STATE,  // (
 			RIGHTBRACKET_STATE,  // )
 			LEFT_BRACE_STATE,  // {
@@ -39,15 +41,9 @@ namespace cc0 {
 			LESS_SIGN_STATE,  // <
 			GREATER_SIGN_STATE,  //  >
             COMMA_SIGN_STATE,  // ,
-			SEMICOLON_STATE,    // ;
-			
-			ZERO_DIGIT_STATE, // 0+digit
-			DIGIT_STATE, // .digit
-			POINT_STATE, // .digit
-			E_STATE, // e...
             EXCLAMATION_SIGN_STATE,  // !
             SINGLE_LINE_COMMENT_STATE, // //
-            MULTI_LINE_COMMENT_STATE,  // /* */
+            MULTI_LINE_COMMENT_STATE  // /* */
 		};
 	public:
 		Tokenizer(std::istream& ifs)
@@ -67,9 +63,22 @@ namespace cc0 {
 		// 返回下一个 token，是 NextToken 实际实现部分
 		std::pair<std::optional<Token>, std::optional<CompilationError>> nextToken();
 
-		// 基于行号的缓冲区的实现
-		void readAll();
+		// 从这里开始其实是一个基于行号的缓冲区的实现
+		// 为了简单起见，我们没有单独拿出一个类实现
+		// 核心思想和 C 的文件输入输出类似，就是一个 buffer 加一个指针，有三个细节
+		// 1.缓冲区包括 \n
+		// 2.指针始终指向下一个要读取的 char
+		// 3.行号和列号从 0 开始
 
+		// 一次读入全部内容，并且替换所有换行为 \n
+		// 这样其实是不合理的，这里只是简单起见这么实现
+		void readAll();
+		// 一个简单的总结
+		// | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9  | 偏移
+		// | = | = | = | = | = | = | = | = | = | =  |
+		// | h | a | 1 | 9 | 2 | 6 | 0 | 8 | 1 | \n |（缓冲区第0行）
+		// | 7 | 1 | 1 | 4 | 5 | 1 | 4 |             （缓冲区第1行）
+		// 这里假设指针指向第一行的 \n，那么有
 		// nextPos() = (1, 0)
 		// currentPos() = (0, 9)
 		// previousPos() = (0, 8)
@@ -80,17 +89,11 @@ namespace cc0 {
 		std::pair<uint64_t, uint64_t> previousPos();
 		std::optional<char> nextChar();
 		bool isEOF();
-		void unreadLast();
 		bool isHex(char ch);
-		bool isChar(char ch);
+		bool isCChar(char ch);
+		bool isSChar(char ch);
 		bool isEscape(std::stringstream& ss, char ch);
-		int toNum(std::string str);
-		std::string toStr(double num, int size);
-		double toDouble(std::string str);
-		int calSize(std::string str, int index);
-		std::string IEEE754(std::string input);
-		std::string Double2String(double dNum);
-		
+		void unreadLast();
 	private:
 		std::istream& _rdr;
 		// 如果没有初始化，那么就 readAll
