@@ -1,37 +1,20 @@
-const double constDou1 = .223E-1, constDou2 = 2.3E+2;
-const int const1 = 0;
-const double constDou3 = 0.00E3;
-
-double dou1 = 2.34, dou2;
+const double const1 = 1.00, const2 = -1.23;
+const double constDou3 = .123e-3;
+double constDou4 = .123e23;
+double constDou5 = 22., constDou6 = .789, constDou7 = 5E-2;
 
 int main(){
-	double dou3 = 3.,dou4 = 4e2;
-	int test = (int)dou1;
-	print(test, dou3); // 2 3.000000
-	
-	
-	dou3 = dou3 * dou4;
-	test = (int)dou3 + 1;
-	print(dou3, test);//1200.000000 1201
-	
-	
-	test = const1 - (int)constDou1;
-	dou1 = constDou1 + (double)const1;
-	print(test, dou1); // 1 1.000000
-	
-	print(dou3 - dou3, -dou3 + dou3, (int)dou3 - (int)dou3); // 0.000000 0.000000 0.000000
-	
-	print(dou4 / dou4); // 1.000000
-	
-	print(dou3 * dou3); // 9.000000
-	
-	print((int)(constDou1 * constDou1)); // 0.000497
-	return 0;
+	double dou1;
+	dou1 = const1 * const2;
+	print(dou1);
+	dou1 = const1 * (const2 + const2);
+	print(dou1);
+	dou1 = (const1 - const2) * (const2 + const2);
+	print(dou1);
+	dou1 = (const1 - (const1 + const2)) * (const2 + const2);
+	print(dou1);
+	dou1 = (const1 * const2 - (const1 + const2)) * (const2 + const2);
+	print(dou1);
+	dou1 = (const1 * const2 - (const1 + const2)) * (const2 * const1 + const2);
+	print(dou1);
 }
-
-
-output:
-2 3.000000
-1200.000000 1201
-
-
