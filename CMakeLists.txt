@@ -14,16 +14,17 @@ set(lib_src
 	tokenizer/tokenizer.cpp
 	tokenizer/utils.hpp
 	error/error.h
+	analyser/symbol.h
 	analyser/analyser.h
 	analyser/analyser.cpp
-	sym_table/symbol.h
-	sym_table/sym_table.h
-	sym_table/sym_table.cpp
+	analyser/symTable.h
+	analyser/symTable.cpp
 	instruction/instruction.h
 		)
 
 set(main_src
 	main.cpp
+	main.h
 	fmts.hpp
 )
 
@@ -57,3 +58,4 @@ endif()
 # This will add the include path, respectively.
 # target_link_libraries(${PROJECT_LIB} fmt::fmt)
 target_link_libraries(${PROJECT_EXE} ${PROJECT_LIB} argparse fmt::fmt)
+
